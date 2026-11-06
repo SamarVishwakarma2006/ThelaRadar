@@ -1,0 +1,27 @@
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Common local build/cache files
+node_modules/
+.next/
+dist/
+build/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+coverage/
+*.log
+
+# Local/private research material
+private/
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
