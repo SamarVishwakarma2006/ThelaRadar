@@ -15,7 +15,7 @@ Open http://127.0.0.1:5190. No dependency installation or API key is needed. Sto
 
 ## Implemented interactions
 
-- Warm cream, green and orange homepage with authored inline SVG cart and dish illustrations.
+- Cyan (#7BDFF2), near-white (#FCFFFF) and pink-accent (#F285D4) street-poster homepage with authored inline SVG cart and dish illustrations.
 - Fictional Nerul sample area, six vendor cards and honest unsupported-area states.
 - Item/vendor search, categories, confirmation filter and reset.
 - Browser-local favourites with explicit storage failure feedback.
@@ -31,7 +31,7 @@ The Nerul illustration does not select the actual pilot locality. Maharashtra-on
 
 `web/index.html`, `styles.css`, `app.js` and `data.js` provide the buildless experience. `scripts/preview.mjs` serves the explicit asset allowlist. `web/data.test.js` checks core fixture rules with Node's built-in test runner. No framework or package dependencies were introduced.
 
-Illustrations are authored vector markup in the source. The stylesheet optionally requests DM Sans and Manrope from Google Fonts; system sans-serif fallbacks work if unavailable. There are no external food-image requests. Legal name clearance is still outstanding.
+Illustrations are authored vector markup in the source. The stylesheet optionally requests Bricolage Grotesque and Space Mono from Google Fonts; system sans-serif fallbacks work if unavailable. There are no external food-image requests. Legal name clearance is still outstanding.
 
 ## Verification performed
 
