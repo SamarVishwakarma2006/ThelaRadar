@@ -13,7 +13,7 @@ Updated: 2026-11-07. This is the canonical progress tracker. Completion means ev
 | 7 | Define success and stop criteria | Draft prepared; freeze pending | [Pilot plan](validation/pilot-plan.md); choose locality, review interviews and freeze criteria before outcomes |
 | 8 | Run a manual service experiment | Workflow prepared; pilot not run | [Manual workflow](validation/manual-pilot.md) and [record templates](validation/pilot-record-templates.md); Steps 5–7 fieldwork/freeze pending |
 | 9 | Make the first investment decision | Review prepared; evidence pending | [Decision record](decisions/001-pilot-verdict.md); current assessment: insufficient evidence, no build verdict |
-| 10 | Specify the first product | Not started | MVP requirements, exclusions, journeys and acceptance criteria |
+| 10 | Specify the first product | Provisional specification prepared | [MVP specification](product/mvp-spec.md); field evidence and implementation acceptance pending |
 | 11 | Design trust, privacy and moderation | Not started | Status/expiry rules, correction/appeal flow and edge-case matrix |
 | 12 | Prototype and test the experience | Not started | Customer/vendor prototypes, observed usability findings and fixes |
 | 13 | Choose architecture and estimate costs | Not started | Architecture, data ownership, costs, backups and decision records |
