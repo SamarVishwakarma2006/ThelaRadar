@@ -85,3 +85,6 @@ profile.addEventListener('submit',event=>{if(event.target.id==='report-form'){ev
 for(const dialog of [profile,dashboard])dialog.addEventListener('click',event=>{if(event.target===dialog){const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();}});
 setInterval(()=>{render();for(const dialog of [profile,dashboard]){const badge=dialog.querySelector('.status');if(dialog.open&&badge){const status=availability(vendors.find(v=>v.id===dialog.dataset.vendor));badge.className=`status ${status.kind}`;badge.textContent=status.label;}}},30000);
 render();
+
+// Reuse authored food illustrations in the hero.
+document.querySelectorAll('.hero-food').forEach(panel => { panel.innerHTML = foodArt(panel.dataset.art); });

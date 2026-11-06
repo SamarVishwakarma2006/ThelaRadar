@@ -14,17 +14,7 @@
     <span class="region">◉ Maharashtra first</span>
   </header>
   <main>
-    <section id="home" class="hero wrap">
-      <div class="hero-copy"><div class="eyebrow"><span></span> YOUR NEIGHBOURHOOD. A LITTLE CLOSER.</div>
-        <h1>Good things,<br>around the <em>corner.</em></h1>
-        <p>The chai break. The evening vada pav. That little stall worth finding. Meet the people who make your neighbourhood yours.</p>
-        <form id="hero-search" class="search-box"><label class="sr-only" for="search">Search a dish or vendor</label><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="What are you craving?" maxlength="80"><button class="button" type="submit">Find a thela <span aria-hidden="true">↗</span></button></form>
-        <div class="hero-foot"><span>⌖ Explore a sample neighbourhood</span><span>No sign-up. Just a little curiosity.</span></div>
-      </div>
-      <div class="hero-art" aria-label="Illustration of a neighbourhood food cart">
-        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><span class="art-star">✳</span>
-        <div class="art-label"><span>MADE WITH LOCAL LOVE</span><strong>Not all good food<br>has a signboard.</strong></div>
-        <svg class="cart" viewBox="0 0 520 420" role="img" aria-label="Pink striped street-food cart with a chai kettle and snack bowls">
+<section id="home" class="hero wrap"><div class="hero-copy"><div class="eyebrow">MAHARASHTRA'S LITTLE LOCAL FINDS</div><h1>BIG CRAVINGS.<br>LITTLE THELAS.</h1><p>Find the stalls that make your neighbourhood.<br>See what's cooking, check the timings, take a little detour.</p><a class="button hero-cta" href="#discover">Find your next favourite ↗</a><div class="hero-foot">Local flavours. Familiar faces. New favourites.</div></div><div class="hero-gallery" aria-label="Illustrated neighbourhood favourites"><a class="hero-tile tile-0" href="#discover"><span class="tile-number">01 / THE LITTLE THELA</span><svg class="cart" viewBox="0 0 520 420" role="img" aria-label="Pink striped street-food cart with a chai kettle and snack bowls">
           <ellipse cx="265" cy="368" rx="196" ry="19" fill="#c9c6a7" opacity=".5"/>
           <path d="M123 135V325M401 135V325" stroke="#173540" stroke-width="10"/>
           <path d="M88 128L125 57H399L435 128Z" fill="#F285D4" stroke="#173540" stroke-width="5"/>
@@ -38,15 +28,12 @@
           <path d="M270 197H334Q331 220 302 220Q276 220 270 197" fill="#FCFFFF" stroke="#173540" stroke-width="4"/><ellipse cx="301" cy="196" rx="32" ry="9" fill="#b4c07d" stroke="#173540" stroke-width="3"/>
           <circle cx="283" cy="191" r="10" fill="#dcaa40"/><circle cx="303" cy="187" r="11" fill="#efbf50"/><circle cx="322" cy="191" r="9" fill="#dcaa40"/>
           <rect x="346" y="194" width="17" height="25" rx="3" fill="#f5e4bc" stroke="#173540" stroke-width="3"/><rect x="372" y="194" width="17" height="25" rx="3" fill="#f5e4bc" stroke="#173540" stroke-width="3"/>
-        </svg>
-        <div class="art-note"><span class="note-dot"></span><div><strong>Know before you go.</strong><small>Timings, menus & a little local wisdom.</small></div><span>↗</span></div>
-        <span class="art-caption">A familiar street. A new favourite.</span>
-      </div>
-    </section>
+        </svg><span class="tile-caption">Small stall.<br>Big heart. ↗</span></a><a class="hero-tile tile-1" href="#discover"><span class="tile-number">02 / THE CHAI BREAK</span><div class="hero-food" data-art="chai"></div><span class="tile-caption">Your daily<br>cup of comfort. ↗</span></a><a class="hero-tile tile-2" href="#discover"><span class="tile-number">03 / THE EVENING BITE</span><div class="hero-food" data-art="vada"></div><span class="tile-caption">One more<br>vada pav? ↗</span></a><a class="hero-tile tile-3" href="#discover"><span class="tile-number">04 / THE EARLY START</span><div class="hero-food" data-art="poha"></div><span class="tile-caption">Good mornings,<br>served local. ↗</span></a></div><p class="gallery-note">Illustrated preview · explore fictional sample vendors below</p></section>
     <section class="trust-strip wrap" aria-label="Our approach"><div><span>01 /</span> Little stalls. Big discoveries.</div><div><span>02 /</span> Availability, with context.</div><div><span>03 /</span> Local people, local knowledge.</div></section>
     <section id="discover" class="discovery wrap">
       <div class="section-top"><div><div class="eyebrow">STEP OUT. FIND SOMETHING GOOD.</div><h2>Your next local favourite.</h2></div><label class="area-picker"><span aria-hidden="true">⌖</span><span class="sr-only">Sample area</span><select id="area" aria-label="Sample area"><option value="nerul">Nerul · sample area</option><option value="panvel">Panvel · not covered</option><option value="kalyan">Kalyan · not covered</option></select></label></div>
       <p class="sample-note">Illustrative Nerul listings only. The actual pilot neighbourhood has not been selected. All menus, prices and timings below are sample data.</p>
+<form id="hero-search" class="search-box discovery-search"><label class="sr-only" for="search">Search a dish or vendor</label><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="What are you craving?" maxlength="80"><button class="button" type="submit">Find a thela <span aria-hidden="true">↗</span></button></form>
       <div class="filters"><div id="categories" class="categories" aria-label="Food category"><button data-category="all" aria-pressed="true">All the good stuff</button><button data-category="snacks" aria-pressed="false">Snacks</button><button data-category="chai" aria-pressed="false">Chai & sips</button><button data-category="breakfast" aria-pressed="false">Breakfast</button><button data-category="meals" aria-pressed="false">Meals</button></div><label class="available-filter"><input id="available" type="checkbox"> Confirmed in demo</label></div>
       <div class="result-line"><span id="result-count" role="status"></span><button id="clear-filters" class="text-button">Reset filters ↻</button></div>
       <div id="vendor-grid" class="vendor-grid"></div>

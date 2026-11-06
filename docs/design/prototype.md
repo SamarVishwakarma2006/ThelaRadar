@@ -52,3 +52,7 @@ Screenshot-file export through the browser runtime was denied for the chosen fol
 ## Remaining work
 
 Test the screens with real target customers and vendors, recording task completion, confusion and changes before calling Step 12 complete. Resolve Step 13 architecture and authentication separately. No production privacy/availability guarantee follows from this prototype. Fieldwork in Steps 5–9 remains outstanding.
+
+## Reference-led hero revision
+
+Centred cyan hero, oversized Barlow Condensed headline, pink discovery CTA and four alternating rounded/oval panels adapt the supplied reference to ThelaRadar. Authored cart/food illustrations are explicitly fictional. Search moved above discovery filters; existing interaction IDs are retained. Bricolage Grotesque and Space Mono remain supporting fonts.
