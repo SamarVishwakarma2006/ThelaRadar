@@ -7,7 +7,7 @@ Updated: 2026-11-06. This is the canonical progress tracker. Completion means ev
 | 1 | Preserve the original idea | Complete | [Original vision](vision/original-idea.md) and [name](vision/brand.md) |
 | 2 | Define the improved product | Complete | [Product direction](vision/product-direction.md), proposed scope and open assumptions |
 | 3 | Establish the GitHub workspace | In progress | Repository files prepared; finish [GitHub setup checklist](operations/github-workflow.md) |
-| 4 | Research competitors and alternatives | Not started | Dated primary sources, comparison and specific unmet need |
+| 4 | Research competitors and alternatives | Complete (desk research) | [Competitor research](research/competitors.md); local coverage and switching hypotheses require field validation |
 | 5 | Choose pilot area and audience | Not started | Reachable locality, vendor category and recruitment rationale |
 | 6 | Interview customers and vendors | Not started | Anonymised evidence from recent experiences and objections |
 | 7 | Define success and stop criteria | Not started | Measures and thresholds set before observing pilot outcomes |
