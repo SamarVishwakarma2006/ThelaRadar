@@ -24,7 +24,9 @@ These segments and benefits are hypotheses. The pilot area will be chosen in Ste
 
 ## Launch scope
 
-Begin with one compact neighbourhood and food stalls or carts that usually sell at recurring locations. Run a manual service experiment before building the custom product. The proposed first software version is a mobile-friendly website accessible through a shared link; the technology choice remains open.
+Launch region confirmed on 2026-11-07: Maharashtra only. Delhi and other states are deferred until the model is proven and expansion is explicitly decided. See [pilot region and audience](../research/pilot-area.md).
+
+Begin with one compact neighbourhood in Maharashtra and food stalls or carts that usually sell at recurring locations. Run a manual service experiment before building the custom product. The proposed first software version is a mobile-friendly website accessible through a shared link; the technology choice remains open.
 
 Include:
 

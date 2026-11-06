@@ -1,6 +1,6 @@
 # ThelaRadar — 20-step roadmap
 
-Updated: 2026-11-06. This is the canonical progress tracker. Completion means evidence exists, not simply that a feature was discussed. Record changes to scope and reasons rather than silently rewriting the original vision.
+Updated: 2026-11-07. This is the canonical progress tracker. Completion means evidence exists, not simply that a feature was discussed. Record changes to scope and reasons rather than silently rewriting the original vision.
 
 | Step | Milestone | Status | Evidence / exit condition |
 | --- | --- | --- | --- |
@@ -8,8 +8,8 @@ Updated: 2026-11-06. This is the canonical progress tracker. Completion means ev
 | 2 | Define the improved product | Complete | [Product direction](vision/product-direction.md), proposed scope and open assumptions |
 | 3 | Establish the GitHub workspace | In progress | Repository files prepared; finish [GitHub setup checklist](operations/github-workflow.md) |
 | 4 | Research competitors and alternatives | Complete (desk research) | [Competitor research](research/competitors.md); local coverage and switching hypotheses require field validation |
-| 5 | Choose pilot area and audience | Not started | Reachable locality, vendor category and recruitment rationale |
-| 6 | Interview customers and vendors | Not started | Anonymised evidence from recent experiences and objections |
+| 5 | Choose pilot area and audience | In progress | [Maharashtra confirmed](research/pilot-area.md); exact neighbourhood and recruitment access pending |
+| 6 | Interview customers and vendors | Prepared; fieldwork pending | [Interview guide](research/interview-guide.md) and [note template](research/interview-notes-template.md); choose locality and conduct interviews |
 | 7 | Define success and stop criteria | Not started | Measures and thresholds set before observing pilot outcomes |
 | 8 | Run a manual service experiment | Not started | Observed visits, repeat use, vendor updates and maintenance effort |
 | 9 | Make the first investment decision | Not started | Evidence-backed continue, revise or stop decision |
