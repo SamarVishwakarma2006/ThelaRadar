@@ -56,3 +56,5 @@ Test the screens with real target customers and vendors, recording task completi
 ## Reference-led hero revision
 
 Centred cyan hero, oversized Barlow Condensed headline, pink discovery CTA and four alternating rounded/oval panels adapt the supplied reference to ThelaRadar. Authored cart/food illustrations are explicitly fictional. Search moved above discovery filters; existing interaction IDs are retained. Bricolage Grotesque and Space Mono remain supporting fonts.
+
+Photographic hero refinement: compact first-screen spacing, simplified navigation and stock food images from Pexels (photo IDs 15017417, 5946624, 2474661, 5560763). Remote images require internet; they do not depict listed vendors.
