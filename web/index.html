@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ThelaRadar local vendor discovery — an interactive prototype with fictional sample vendors.">
+  <title>ThelaRadar — Good things, around the corner.</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="demo-bar">A LITTLE PREVIEW OF WHAT'S NEXT <span>Interactive prototype · fictional vendors · no live locations</span></div>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="ThelaRadar home"><span class="brand-icon" aria-hidden="true">⌖</span>Thela<span>Radar</span><i></i></a>
+    <nav aria-label="Main navigation"><a href="#discover" class="nav-discover">Discover</a><button id="saved-nav">Saved <span id="saved-count">0</span></button><button id="vendor-nav">For vendors <span aria-hidden="true">↗</span></button></nav>
+    <span class="region">◉ Maharashtra first</span>
+  </header>
+  <main>
+    <section id="home" class="hero wrap">
+      <div class="hero-copy"><div class="eyebrow"><span></span> YOUR NEIGHBOURHOOD. A LITTLE CLOSER.</div>
+        <h1>Good things,<br>around the <em>corner.</em></h1>
+        <p>The chai break. The evening vada pav. That little stall worth finding. Meet the people who make your neighbourhood yours.</p>
+        <form id="hero-search" class="search-box"><label class="sr-only" for="search">Search a dish or vendor</label><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="What are you craving?" maxlength="80"><button class="button" type="submit">Find a thela <span aria-hidden="true">↗</span></button></form>
+        <div class="hero-foot"><span>⌖ Explore a sample neighbourhood</span><span>No sign-up. Just a little curiosity.</span></div>
+      </div>
+      <div class="hero-art" aria-label="Illustration of a neighbourhood food cart">
+        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><span class="art-star">✳</span>
+        <div class="art-label"><span>MADE WITH LOCAL LOVE</span><strong>Not all good food<br>has a signboard.</strong></div>
+        <svg class="cart" viewBox="0 0 520 420" role="img" aria-label="Orange striped street-food cart with a chai kettle and snack bowls">
+          <ellipse cx="265" cy="368" rx="196" ry="19" fill="#c9c6a7" opacity=".5"/>
+          <path d="M123 135V325M401 135V325" stroke="#233f34" stroke-width="10"/>
+          <path d="M88 128L125 57H399L435 128Z" fill="#e87a40" stroke="#233f34" stroke-width="5"/>
+          <path d="M134 128L158 57H191L178 128M224 128L229 57H265L268 128M314 128L301 57H337L358 128M403 128L371 57H399L435 128" fill="#f8e8c8"/>
+          <path d="M88 128V148Q111 174 134 148Q156 174 178 148Q201 174 224 148Q246 174 268 148Q291 174 314 148Q336 174 358 148Q380 174 403 148Q419 168 435 148V128Z" fill="#e87a40" stroke="#233f34" stroke-width="5"/>
+          <path d="M115 231H410V328H115Z" fill="#ed8748" stroke="#233f34" stroke-width="5"/><path d="M103 220H422V239H103Z" fill="#f6dfad" stroke="#233f34" stroke-width="5"/>
+          <rect x="170" y="259" width="188" height="46" rx="23" fill="#fff6df"/><text x="264" y="289" text-anchor="middle" fill="#234336" font-size="22" font-family="Georgia" font-weight="bold">a little local magic</text>
+          <circle cx="160" cy="339" r="30" fill="#254436"/><circle cx="160" cy="339" r="12" fill="#f5e6bf"/><circle cx="366" cy="339" r="30" fill="#254436"/><circle cx="366" cy="339" r="12" fill="#f5e6bf"/>
+          <path d="M158 216L164 177H205L214 216Z" fill="#648777" stroke="#233f34" stroke-width="4"/><path d="M205 184Q235 177 218 203H210M161 181L147 173L157 194" fill="none" stroke="#233f34" stroke-width="5"/><path d="M174 174V167H194V174" stroke="#233f34" stroke-width="4" fill="none"/>
+          <path d="M176 156Q164 142 176 133M194 156Q182 142 194 133" fill="none" stroke="#fff9e9" stroke-width="4" stroke-linecap="round"/>
+          <path d="M270 197H334Q331 220 302 220Q276 220 270 197" fill="#f6dfad" stroke="#233f34" stroke-width="4"/><ellipse cx="301" cy="196" rx="32" ry="9" fill="#b4c07d" stroke="#233f34" stroke-width="3"/>
+          <circle cx="283" cy="191" r="10" fill="#dcaa40"/><circle cx="303" cy="187" r="11" fill="#efbf50"/><circle cx="322" cy="191" r="9" fill="#dcaa40"/>
+          <rect x="346" y="194" width="17" height="25" rx="3" fill="#f5e4bc" stroke="#233f34" stroke-width="3"/><rect x="372" y="194" width="17" height="25" rx="3" fill="#f5e4bc" stroke="#233f34" stroke-width="3"/>
+        </svg>
+        <div class="art-note"><span class="note-dot"></span><div><strong>Know before you go.</strong><small>Timings, menus & a little local wisdom.</small></div><span>↗</span></div>
+        <span class="art-caption">A familiar street. A new favourite.</span>
+      </div>
+    </section>
+    <section class="trust-strip wrap" aria-label="Our approach"><div><span>01 /</span> Little stalls. Big discoveries.</div><div><span>02 /</span> Availability, with context.</div><div><span>03 /</span> Local people, local knowledge.</div></section>
+    <section id="discover" class="discovery wrap">
+      <div class="section-top"><div><div class="eyebrow">STEP OUT. FIND SOMETHING GOOD.</div><h2>Your next local favourite.</h2></div><label class="area-picker"><span aria-hidden="true">⌖</span><span class="sr-only">Sample area</span><select id="area" aria-label="Sample area"><option value="nerul">Nerul · sample area</option><option value="panvel">Panvel · not covered</option><option value="kalyan">Kalyan · not covered</option></select></label></div>
+      <p class="sample-note">Illustrative Nerul listings only. The actual pilot neighbourhood has not been selected. All menus, prices and timings below are sample data.</p>
+      <div class="filters"><div id="categories" class="categories" aria-label="Food category"><button data-category="all" aria-pressed="true">All the good stuff</button><button data-category="snacks" aria-pressed="false">Snacks</button><button data-category="chai" aria-pressed="false">Chai & sips</button><button data-category="breakfast" aria-pressed="false">Breakfast</button><button data-category="meals" aria-pressed="false">Meals</button></div><label class="available-filter"><input id="available" type="checkbox"> Confirmed in demo</label></div>
+      <div class="result-line"><span id="result-count" role="status"></span><button id="clear-filters" class="text-button">Reset filters ↻</button></div>
+      <div id="vendor-grid" class="vendor-grid"></div>
+      <div id="empty-state" class="empty-state" hidden><span>⌕</span><h3>No stalls in this little corner yet.</h3><p id="empty-copy"></p><button class="button" id="empty-reset">Back to sample listings</button></div>
+    </section>
+    <section class="vendor-banner wrap"><div class="banner-drawing" aria-hidden="true">✳</div><div><div class="eyebrow">FOR THE PEOPLE BEHIND THE THELA</div><h2>Your regulars.<br>And your next ones.</h2><p>A simple way to share what you're serving and when you're around.</p></div><button id="vendor-cta" class="button light">Try the vendor preview ↗</button></section>
+    <section class="how-it-works wrap"><div><div class="eyebrow">LESS GUESSING. MORE DISCOVERING.</div><h2>A little knowledge<br>goes a long way.</h2></div><article><span>01</span><h3>Find your craving.</h3><p>Browse a dish, a neighbourhood or a familiar favourite.</p></article><article><span>02</span><h3>Check the context.</h3><p>See usual hours separately from a recent confirmation.</p></article><article><span>03</span><h3>Take the little detour.</h3><p>Find the selling landmark. Bring your appetite.</p></article></section>
+  </main>
+  <footer class="wrap"><a class="brand" href="#home">Thela<span>Radar</span><i></i></a><p>Good things are closer than you think.</p><span>Maharashtra first. Made for the neighbourhood.</span></footer>
+  <dialog id="profile-dialog" aria-label="Sample vendor profile"></dialog>
+  <dialog id="dashboard-dialog" aria-label="Vendor dashboard preview"></dialog>
+  <div id="toast" role="status" class="toast" hidden></div>
+  <script type="module" src="app.js"></script>
+</body></html>

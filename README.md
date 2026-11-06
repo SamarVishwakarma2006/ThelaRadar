@@ -6,9 +6,15 @@ ThelaRadar is an India-focused product concept for discovering food stalls, movi
 
 ## Current status
 
-Documentation and validation planning only. No application, customer validation or live tracking has been built. The proposed first pilot covers recurring-location food vendors in one compact neighbourhood in Maharashtra; the city and neighbourhood are undecided.
+A local interactive webpage prototype is available with fictional data. No real vendor/customer validation, production backend or live tracking is connected. The proposed first pilot covers recurring-location food vendors in one compact neighbourhood in Maharashtra; the city and neighbourhood are undecided.
 
-Steps 1 and 2 are documented; Step 4 desk research is complete. Steps 5–9 have pending locality, fieldwork and decision requirements; Step 10 has a provisional specification. Step 3 remote GitHub setup still needs confirmation. See the [20-step tracker](docs/ROADMAP.md).
+Steps 1 and 2 are documented; Step 4 desk research is complete. Steps 5–9 have pending locality, fieldwork and decision requirements; Step 10 has a provisional specification. Step 11 has a draft trust policy; Step 12 has a clickable prototype with developer QA, pending real usability sessions. Step 3 remote GitHub setup still needs confirmation. See the [20-step tracker](docs/ROADMAP.md).
+
+## Run the webpage prototype
+
+With Node.js 24 installed, run `npm start` from this folder, then open http://127.0.0.1:5190. No install or API key is needed. Stop with Ctrl+C. Run `npm run check` and `npm test` for the included checks.
+
+The prototype uses fictional vendors; directions, accounts and report submission are not connected. See [prototype behaviour and QA](docs/design/prototype.md).
 
 ## Start here
 
@@ -40,4 +46,4 @@ docs/ROADMAP.md       Milestones, evidence and progress
 CONTRIBUTING.md       Contribution and manual Git instructions
 ```
 
-Code directories and setup instructions will be added when implementation begins. Name/domain/trademark availability and a software licence have not been established.
+`web/` contains the buildless prototype; `scripts/preview.mjs` is its local preview server. Production architecture is deferred to Step 13. Name/domain/trademark availability and a software licence have not been established.
