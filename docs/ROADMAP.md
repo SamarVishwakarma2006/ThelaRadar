@@ -11,7 +11,7 @@ Updated: 2026-11-07. This is the canonical progress tracker. Completion means ev
 | 5 | Choose pilot area and audience | In progress | [Maharashtra confirmed](research/pilot-area.md); exact neighbourhood and recruitment access pending |
 | 6 | Interview customers and vendors | Prepared; fieldwork pending | [Interview guide](research/interview-guide.md) and [note template](research/interview-notes-template.md); choose locality and conduct interviews |
 | 7 | Define success and stop criteria | Draft prepared; freeze pending | [Pilot plan](validation/pilot-plan.md); choose locality, review interviews and freeze criteria before outcomes |
-| 8 | Run a manual service experiment | Not started | Observed visits, repeat use, vendor updates and maintenance effort |
+| 8 | Run a manual service experiment | Workflow prepared; pilot not run | [Manual workflow](validation/manual-pilot.md) and [record templates](validation/pilot-record-templates.md); Steps 5–7 fieldwork/freeze pending |
 | 9 | Make the first investment decision | Not started | Evidence-backed continue, revise or stop decision |
 | 10 | Specify the first product | Not started | MVP requirements, exclusions, journeys and acceptance criteria |
 | 11 | Design trust, privacy and moderation | Not started | Status/expiry rules, correction/appeal flow and edge-case matrix |
