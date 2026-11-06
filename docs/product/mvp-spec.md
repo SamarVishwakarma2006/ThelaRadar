@@ -43,6 +43,10 @@ Browsing is public. Ownership-changing actions require authentication and author
 
 C07 proposes browser-local favourites to keep the first version small. Notifications, account-synced favourites and sophisticated personalised ranking are deferred. Sorting should be explained, deterministic for equal inputs and avoid presenting paid placement as quality; exact default order is decided during design.
 
+## Trust design references
+
+Step 11 drafts: [trust, privacy and moderation policy](trust-and-moderation.md) and [edge-case acceptance matrix](edge-cases.md). These specify proposed behaviour; operator review and implementation checks remain pending.
+
 ## Availability behaviour
 
 - No active, unexpired evidence: unconfirmed, with usual schedule shown separately.
