@@ -43,10 +43,10 @@ function render() {
   }).join('');
 }
 function openProfile(id) {
-  const v=vendors.find(v=>v.id===id); if(!v) return;
+  const v=vendors.find(v=>v.id===id); if(!v || v.state==='hidden'){ if(profile.open)profile.close(); toast('This vendor is unavailable or no longer sharing.'); return; }
   const status=availability(v),hidden=v.state==='hidden';
   profile.dataset.vendor=id;
-  profile.innerHTML=`<div class="dialog-header"><span>THELARADAR / SAMPLE VENDOR</span><button class="close-dialog" aria-label="Close vendor profile">×</button></div><div class="dialog-body"><div class="card-art" style="--dish-bg:${v.color}">${foodArt(v.art)}</div><div class="eyebrow">${v.tag}</div><h2>${escape(v.name)}</h2><p>${hidden?'Location hidden in this preview.':`⌖ ${v.landmark}`}</p><span class="status ${status.kind}">${status.label}</span><div class="detail-meta"><strong>${v.hours} · illustrative schedule</strong>${status.live?`Sample confirmation expires at ${clock(v.expiresAt)} IST. Item stock is separate.`:'Usual hours do not confirm attendance today.'}</div><h3>On the sample menu</h3><p>Illustrative prices · fixture date 7 November 2026</p><ul class="menu-list">${v.items.map(i=>`<li><span>${i.name}${i.soldOut?' <small>· Demo sold out</small>':''}</span><span>₹${i.price}</span></li>`).join('')}</ul><div class="dialog-actions"><button class="button" data-demo-directions ${hidden?'disabled':''}>Directions preview ↗</button><button class="button outline" data-save="${v.id}">${saved.includes(v.id)?'Remove favourite':'Save this thela'}</button></div><p class="demo-callout">Fictional vendor. No real location, live stock, review score or business verification. Directions are not connected.</p><details class="report-form"><summary>Something looks off? Preview a correction</summary><form id="report-form"><label for="report-type">What needs correcting?</label><select id="report-type"><option>Location or landmark</option><option>Timings or attendance</option><option>Menu or price</option><option>Duplicate listing</option></select><label for="report-note">Details (sample text only)</label><textarea id="report-note" maxlength="300" required placeholder="Try a sample correction. Do not enter personal details."></textarea><button class="button" type="submit">Preview report</button></form><p id="report-result" role="status"></p></details></div>`;
+  profile.innerHTML=`<div class="dialog-header"><span>THELARADAR / SAMPLE VENDOR</span><button class="close-dialog" aria-label="Close vendor profile">×</button></div><div class="dialog-body"><div class="card-art" style="--dish-bg:${v.color}">${foodArt(v.art)}</div><div class="eyebrow">${v.tag}</div><h2>${escape(v.name)}</h2><p>${hidden?'Location hidden in this preview.':`⌖ ${v.landmark}`}</p><span class="status ${status.kind}">${status.label}</span><div class="detail-meta"><strong>${v.hours} · illustrative schedule</strong>${status.live?`Sample confirmation expires at ${clock(v.expiresAt)} IST. Item stock is separate.`:'Usual hours do not confirm attendance today.'}</div><h3>On the sample menu</h3><p>Illustrative prices · fixture date 7 November 2026</p><ul class="menu-list">${v.items.map(i=>`<li><span>${i.name}${i.soldOut?' <small>· Demo sold out</small>':''}</span><span>₹${i.price}</span></li>`).join('')}</ul><div class="dialog-actions"><button class="button" disabled aria-describedby="directions-note">Directions unavailable</button><button class="button outline" data-save="${v.id}">${saved.includes(v.id)?'Remove favourite':'Save this thela'}</button></div><p id="directions-note" class="demo-callout">Fictional vendor. No real location, live stock, review score or business verification. Directions are not connected.</p><details class="report-form"><summary>Something looks off? Preview a correction</summary><form id="report-form"><label for="report-type">What needs correcting?</label><select id="report-type"><option>Location or landmark</option><option>Timings or attendance</option><option>Menu or price</option><option>Duplicate listing</option></select><label for="report-note">Details (sample text only)</label><textarea id="report-note" maxlength="300" required placeholder="Try a sample correction. Do not enter personal details."></textarea><button class="button" type="submit">Preview report</button></form><p id="report-result" role="status"></p></details></div>`;
   if(!profile.open) profile.showModal();
 }
 function openDashboard(id='vada') {
@@ -69,7 +69,7 @@ $('#dashboard-dialog').addEventListener('change',event=>{if(event.target.id==='d
 document.addEventListener('click',event=>{
   const saveButton=event.target.closest('[data-save]');
   if(saveButton){save(saveButton.dataset.save);if(profile.open)openProfile(profile.dataset.vendor);}
-  const view=event.target.closest('[data-profile]');if(view)openProfile(view.dataset.profile);
+  const view=event.target.closest('[data-profile]');if(view)location.hash='vendor/'+encodeURIComponent(view.dataset.profile);
   if(event.target.closest('.close-dialog'))event.target.closest('dialog').close();
   if(event.target.closest('[data-demo-directions]'))toast('Directions preview only. No real location is attached to this fictional vendor.');
   const update=event.target.closest('[data-update]');
@@ -88,3 +88,26 @@ render();
 
 // Reuse authored food illustrations in the hero.
 document.querySelectorAll('.hero-food').forEach(panel => { panel.innerHTML = foodArt(panel.dataset.art); });
+
+// Bookmarkable consumer profiles; withdrawn fixture locations never reopen.
+function syncProfileRoute(){
+  if(!location.hash.startsWith('#vendor/')){if(profile.open)profile.close();return;}
+  let id;try{id=decodeURIComponent(location.hash.slice(8));}catch{toast('Invalid vendor link.');return;}
+  openProfile(id);
+}
+window.addEventListener('hashchange',syncProfileRoute);
+profile.addEventListener('close',()=>{if(location.hash.startsWith('#vendor/'))history.replaceState(null,'','#discover');});
+function connectivity(){
+  const offline=!navigator.onLine;
+  $('#connection-note').hidden=!offline;
+  document.querySelectorAll('[data-profile]').forEach(button=>button.setAttribute('aria-label',button.textContent+(offline?' — offline sample data':'')));
+}
+window.addEventListener('online',connectivity);window.addEventListener('offline',connectivity);
+window.addEventListener('pageshow',()=>{render();connectivity();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){render();if(profile.open)openProfile(profile.dataset.vendor);}});
+syncProfileRoute();connectivity();
+// Failed remote photos retain their panel shape and a useful textual fallback.
+document.querySelectorAll('.hero-tile img').forEach(img=>{
+  const fallback=()=>{img.hidden=true;img.parentElement.classList.add('photo-unavailable');img.parentElement.setAttribute('aria-label',img.alt+' — explore sample vendors');img.parentElement.dataset.fallback=img.alt;};
+  img.addEventListener('error',fallback);if(img.complete&&!img.naturalWidth)fallback();
+});
