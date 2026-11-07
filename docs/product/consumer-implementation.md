@@ -11,3 +11,10 @@ Remaining: provision the Step 13 backend, implement real data loading/error/retr
 Verification: JavaScript syntax and existing availability/filter tests; browser navigation/offline/photo-failure checks still pending.
 
 Consumer loading update: the local server now serves GET /api/demo/vendors with explicit demo provenance and no caching. Discovery shows distinct loading/failure/retry states, enforces a 10-second timeout and rejects unexpected fixture payloads. Direct profile routes wait for loading. No production API or persistence is implied. Static-only hosting will need a replacement data endpoint.
+## Browser verification — 7 November 2026
+
+Verified in the local browser: six vendors loaded from the demo endpoint; searching poha returned one result; the poha profile opened at #vendor/poha and reopened after reload; directions remained disabled; Panvel showed the unsupported-area message; resetting restored six listings. No browser console errors were captured during these checks. Retry/offline paths and photographic content/license checks remain pending.
+
+## Backend connection prerequisite
+
+No Supabase connector or local project configuration was available during this check. Before real backend integration, identify an owner-controlled development Supabase project. Supply its project URL and publishable key through an ignored local .env file, not a committed file. Never supply a service-role key to frontend code. Database migrations and permission tests must be prepared and applied before real vendor data is accepted. The demo endpoint is not a production backend.
