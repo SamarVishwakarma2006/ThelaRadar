@@ -22,3 +22,7 @@ No Supabase connector or local project configuration was available during this c
 Database foundation update: draft transactional migration prepared under supabase/migrations with areas, vendors, offerings and selling sessions. Includes integrity constraints, indexes, RLS and revoked client permissions. Not executed or connected; no read policies or vendor writes enabled. See supabase/README.md for setup and required database checks.
 
 Foundation verification update: added rollback-only SQL constraint and effective-role-privilege checks. Not executed: neither a connected development database nor psql/Supabase CLI/Docker on PATH was available. Hosted integration still requires an owner-controlled development project.
+
+## Local-first persistence
+
+Supabase deferred at owner request. Demo status, sold-out flags and original expiry timestamps persist in browser localStorage across reloads and server restarts. UI updates roll back if saving fails. Stored text is not trusted: only validated status/timestamps/stock are restored over known fixtures. Reset replaces saved demo state. Clearing site storage removes changes; other browsers do not share them. No real authentication or database is implied. Browser persistence QA remains pending.

@@ -59,7 +59,7 @@ function openDashboard(id='vada') {
   if(loadState!=='ready'||!vendors.length){toast('Load the sample vendors first.');return;}
   const v=vendors.find(v=>v.id===id)||vendors[0], status=availability(v);
   dashboard.dataset.vendor=v.id;
-  dashboard.innerHTML=`<div class="dialog-header"><span>FOR VENDORS / INTERACTIVE PREVIEW</span><button class="close-dialog" aria-label="Close vendor dashboard">×</button></div><div class="dialog-body"><div class="eyebrow">A LITTLE UPDATE. A BIG HELP.</div><h2>Hello, neighbourhood.</h2><p>Try a sample update and see the discovery cards change.</p><p class="demo-callout">No sign-in or real account. Changes affect this browser session’s fictional fixtures only and reset on reload.</p><label for="dashboard-vendor">Sample vendor</label><select id="dashboard-vendor" class="dashboard-select">${vendors.map(item=>`<option value="${item.id}" ${item.id===v.id?'selected':''}>${escape(item.name)}</option>`).join('')}</select><span class="status ${status.kind}">${status.label}</span><div class="metric-row"><div><strong>—</strong><small>Visits · not measured</small></div><div><strong>${v.items.length}</strong><small>Sample menu items</small></div><div><strong>2 hr</strong><small>Demo expiry ceiling</small></div></div><div class="dashboard-controls"><button class="button" data-update="serving">I’m serving · demo</button><button class="button outline" data-update="soldout">Toggle first item sold out</button><button class="button outline" data-update="finished">Finished for today</button><button class="button outline" data-update="hidden">Stop location sharing</button></div><p>“Finished” ends the sample session. “Stop location sharing” also removes this sample from discovery. “I’m serving” explicitly republishes this fictional location.</p><button class="text-button" data-reset-demo>Reset all sample vendors ↻</button></div>`;
+  dashboard.innerHTML=`<div class="dialog-header"><span>FOR VENDORS / INTERACTIVE PREVIEW</span><button class="close-dialog" aria-label="Close vendor dashboard">×</button></div><div class="dialog-body"><div class="eyebrow">A LITTLE UPDATE. A BIG HELP.</div><h2>Hello, neighbourhood.</h2><p>Try a sample update and see the discovery cards change.</p><p class="demo-callout">No sign-in or real account. Demo changes persist in this browser. Clearing site storage removes them. No real account or cross-device sync.</p><label for="dashboard-vendor">Sample vendor</label><select id="dashboard-vendor" class="dashboard-select">${vendors.map(item=>`<option value="${item.id}" ${item.id===v.id?'selected':''}>${escape(item.name)}</option>`).join('')}</select><span class="status ${status.kind}">${status.label}</span><div class="metric-row"><div><strong>—</strong><small>Visits · not measured</small></div><div><strong>${v.items.length}</strong><small>Sample menu items</small></div><div><strong>2 hr</strong><small>Demo expiry ceiling</small></div></div><div class="dashboard-controls"><button class="button" data-update="serving">I’m serving · demo</button><button class="button outline" data-update="soldout">Toggle first item sold out</button><button class="button outline" data-update="finished">Finished for today</button><button class="button outline" data-update="hidden">Stop location sharing</button></div><p>“Finished” ends the sample session. “Stop location sharing” also removes this sample from discovery. “I’m serving” explicitly republishes this fictional location.</p><button class="text-button" data-reset-demo>Reset all sample vendors ↻</button></div>`;
   if(!dashboard.open) dashboard.showModal();
 }
 $('#hero-search').addEventListener('submit',event=>{event.preventDefault();render();$('#discover').scrollIntoView();});
@@ -81,12 +81,14 @@ document.addEventListener('click',event=>{
   if(event.target.closest('[data-demo-directions]'))toast('Directions preview only. No real location is attached to this fictional vendor.');
   const update=event.target.closest('[data-update]');
   if(update){
+    const previous=structuredClone(vendors);
     const v=vendors.find(item=>item.id===dashboard.dataset.vendor), action=update.dataset.update;
     if(action==='soldout')v.items[0].soldOut=!v.items[0].soldOut;
     else {v.state=action;if(action==='serving'){v.confirmedAt=Date.now();v.expiresAt=v.confirmedAt+120*60000;v.items.forEach(i=>i.soldOut=false);}}
-    render();openDashboard(v.id);toast('Sample updated locally. No real vendor information changed.');
+    if(!persistDemo(vendors)){vendors=previous;return;}
+    render();openDashboard(v.id);toast('Demo changes saved in this browser.');
   }
-  if(event.target.closest('[data-reset-demo]')){vendors=createVendors();render();openDashboard();toast('Sample vendor sessions reset.');}
+  if(event.target.closest('[data-reset-demo]')){const next=createVendors();if(persistDemo(next)){vendors=next;render();openDashboard();toast('Saved sample vendors reset.');}}
 });
 profile.addEventListener('submit',event=>{if(event.target.id==='report-form'){event.preventDefault();$('#report-result').textContent='Preview complete. This report was not sent or stored; no moderation service is connected.';event.target.reset();}});
 for(const dialog of [profile,dashboard])dialog.addEventListener('click',event=>{if(event.target===dialog){const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();}});
@@ -130,9 +132,28 @@ async function loadVendors(){
     // This endpoint is deliberately restricted to our known fictional fixture set.
     const expected=createVendors();
     if(data.demo!==true||!Array.isArray(data.vendors)||data.vendors.length!==expected.length||data.vendors.some((v,i)=>JSON.stringify({...v,confirmedAt:expected[i].confirmedAt,expiresAt:expected[i].expiresAt})!==JSON.stringify(expected[i])||![v.confirmedAt,v.expiresAt].every(t=>t===null||Number.isFinite(t))))throw new Error('Invalid demo data');
-    vendors=data.vendors;loadState='ready';render();syncProfileRoute();connectivity();
+    vendors=restoreDemo(data.vendors);loadState='ready';render();syncProfileRoute();connectivity();
   }catch{loadState='error';render();}
   finally{loadVendors.pending=false;}
 }
 $('#retry-vendors').addEventListener('click',loadVendors);
 loadVendors();
+
+function persistDemo(next){
+ try{localStorage.setItem('thelaradar-demo-v1',JSON.stringify(next));return true;}
+ catch{toast('Could not save changes: browser storage is blocked or full. Nothing changed.');return false;}
+}
+function restoreDemo(base){
+ try{
+  const raw=localStorage.getItem('thelaradar-demo-v1');
+  if(raw===null){persistDemo(base);return base;}
+  const rows=JSON.parse(raw);
+  if(!Array.isArray(rows)||rows.length!==base.length)throw new Error();
+  return base.map((v,i)=>{
+   const r=rows[i];
+   if(!r||r.id!==v.id||!['serving','unknown','finished','hidden'].includes(r.state)||![r.confirmedAt,r.expiresAt].every(t=>t===null||(Number.isFinite(t)&&t>=0))||!Array.isArray(r.items)||r.items.length!==v.items.length)throw new Error();
+   if(r.state==='serving'&&(!Number.isFinite(r.confirmedAt)||!Number.isFinite(r.expiresAt)||r.expiresAt<r.confirmedAt||r.expiresAt-r.confirmedAt>7200000))throw new Error();
+   return {...v,state:r.state,confirmedAt:r.confirmedAt,expiresAt:r.expiresAt,items:v.items.map((item,j)=>{if(r.items[j].soldOut!==undefined&&typeof r.items[j].soldOut!=='boolean')throw new Error();return {...item,soldOut:!!r.items[j].soldOut};})};
+  });
+ }catch{toast('Saved demo data could not be read. Fresh samples shown; reset the demo to replace saved data.');return base;}
+}
