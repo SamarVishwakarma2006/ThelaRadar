@@ -1,10 +1,10 @@
 import {createVendors,availability,matches} from './data.js';
 
 const $ = selector => document.querySelector(selector);
-let vendors = createVendors();
+let vendors = [], loadState='loading';
 let category = 'all', savedOnly = false, toastTimer;
 let saved = [];
-try { const value = JSON.parse(localStorage.getItem('thelaradar-favourites') || '[]'); if (Array.isArray(value)) saved = value.filter(id => vendors.some(v=>v.id===id)); } catch { /* Browsing remains usable without storage. */ }
+try { const value = JSON.parse(localStorage.getItem('thelaradar-favourites') || '[]'); if (Array.isArray(value)) saved = value.filter(id => typeof id === 'string'); } catch { /* Browsing remains usable without storage. */ }
 const profile = $('#profile-dialog'), dashboard = $('#dashboard-dialog');
 const escape = value => String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const clock = timestamp => new Intl.DateTimeFormat('en-IN',{hour:'numeric',minute:'2-digit',timeZone:'Asia/Kolkata'}).format(timestamp);
@@ -29,6 +29,12 @@ function save(id) {
 }
 function reset() { category='all'; savedOnly=false; $('#search').value=''; $('#area').value='nerul'; $('#available').checked=false; render(); }
 function render() {
+  $('#load-state').hidden=loadState==='ready';
+  $('#load-message').textContent=loadState==='error'?'Could not load the sample vendors. Check your connection and retry.':'Loading sample vendors…';
+  $('#retry-vendors').hidden=loadState!=='error';
+  $('#vendor-grid').setAttribute('aria-busy',String(loadState==='loading'));
+  if(loadState!=='ready'){$('#vendor-grid').innerHTML='';$('#empty-state').hidden=true;$('#result-count').textContent='';return;}
+
   const filters={query:$('#search').value,category,confirmed:$('#available').checked,savedOnly,saved};
   const result = $('#area').value==='nerul' ? vendors.filter(v=>matches(v,filters)) : [];
   $('#saved-count').textContent=saved.length;
@@ -50,6 +56,7 @@ function openProfile(id) {
   if(!profile.open) profile.showModal();
 }
 function openDashboard(id='vada') {
+  if(loadState!=='ready'||!vendors.length){toast('Load the sample vendors first.');return;}
   const v=vendors.find(v=>v.id===id)||vendors[0], status=availability(v);
   dashboard.dataset.vendor=v.id;
   dashboard.innerHTML=`<div class="dialog-header"><span>FOR VENDORS / INTERACTIVE PREVIEW</span><button class="close-dialog" aria-label="Close vendor dashboard">×</button></div><div class="dialog-body"><div class="eyebrow">A LITTLE UPDATE. A BIG HELP.</div><h2>Hello, neighbourhood.</h2><p>Try a sample update and see the discovery cards change.</p><p class="demo-callout">No sign-in or real account. Changes affect this browser session’s fictional fixtures only and reset on reload.</p><label for="dashboard-vendor">Sample vendor</label><select id="dashboard-vendor" class="dashboard-select">${vendors.map(item=>`<option value="${item.id}" ${item.id===v.id?'selected':''}>${escape(item.name)}</option>`).join('')}</select><span class="status ${status.kind}">${status.label}</span><div class="metric-row"><div><strong>—</strong><small>Visits · not measured</small></div><div><strong>${v.items.length}</strong><small>Sample menu items</small></div><div><strong>2 hr</strong><small>Demo expiry ceiling</small></div></div><div class="dashboard-controls"><button class="button" data-update="serving">I’m serving · demo</button><button class="button outline" data-update="soldout">Toggle first item sold out</button><button class="button outline" data-update="finished">Finished for today</button><button class="button outline" data-update="hidden">Stop location sharing</button></div><p>“Finished” ends the sample session. “Stop location sharing” also removes this sample from discovery. “I’m serving” explicitly republishes this fictional location.</p><button class="text-button" data-reset-demo>Reset all sample vendors ↻</button></div>`;
@@ -91,6 +98,7 @@ document.querySelectorAll('.hero-food').forEach(panel => { panel.innerHTML = foo
 
 // Bookmarkable consumer profiles; withdrawn fixture locations never reopen.
 function syncProfileRoute(){
+  if(loadState!=='ready')return;
   if(!location.hash.startsWith('#vendor/')){if(profile.open)profile.close();return;}
   let id;try{id=decodeURIComponent(location.hash.slice(8));}catch{toast('Invalid vendor link.');return;}
   openProfile(id);
@@ -111,3 +119,20 @@ document.querySelectorAll('.hero-tile img').forEach(img=>{
   const fallback=()=>{img.hidden=true;img.parentElement.classList.add('photo-unavailable');img.parentElement.setAttribute('aria-label',img.alt+' — explore sample vendors');img.parentElement.dataset.fallback=img.alt;};
   img.addEventListener('error',fallback);if(img.complete&&!img.naturalWidth)fallback();
 });
+
+async function loadVendors(){
+  if(loadVendors.pending)return;
+  loadVendors.pending=true;loadState='loading';render();
+  try{
+    const response=await fetch('/api/demo/vendors',{cache:'no-store',signal:AbortSignal.timeout(10000)});
+    if(!response.ok)throw new Error('Load failed');
+    const data=await response.json();
+    // This endpoint is deliberately restricted to our known fictional fixture set.
+    const expected=createVendors();
+    if(data.demo!==true||!Array.isArray(data.vendors)||data.vendors.length!==expected.length||data.vendors.some((v,i)=>JSON.stringify({...v,confirmedAt:expected[i].confirmedAt,expiresAt:expected[i].expiresAt})!==JSON.stringify(expected[i])||![v.confirmedAt,v.expiresAt].every(t=>t===null||Number.isFinite(t))))throw new Error('Invalid demo data');
+    vendors=data.vendors;loadState='ready';render();syncProfileRoute();connectivity();
+  }catch{loadState='error';render();}
+  finally{loadVendors.pending=false;}
+}
+$('#retry-vendors').addEventListener('click',loadVendors);
+loadVendors();

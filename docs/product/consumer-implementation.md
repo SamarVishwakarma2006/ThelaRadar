@@ -9,3 +9,5 @@ Navigation supports direct links and browser back/forward. Profile dismissal ret
 Remaining: provision the Step 13 backend, implement real data loading/error/retry states and validation, permitted coordinates/directions, factual-report intake, verify photo content/licenses/crops, browser QA and user testing. No real vendor addresses or accounts have been invented. Do not mark Step 14 complete until production data contracts and acceptance checks pass.
 
 Verification: JavaScript syntax and existing availability/filter tests; browser navigation/offline/photo-failure checks still pending.
+
+Consumer loading update: the local server now serves GET /api/demo/vendors with explicit demo provenance and no caching. Discovery shows distinct loading/failure/retry states, enforces a 10-second timeout and rejects unexpected fixture payloads. Direct profile routes wait for loading. No production API or persistence is implied. Static-only hosting will need a replacement data endpoint.

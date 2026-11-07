@@ -1,3 +1,4 @@
+import {createVendors} from '../web/data.js';
 import {createServer} from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
@@ -7,6 +8,7 @@ const types={html:'text/html; charset=utf-8',css:'text/css; charset=utf-8',js:'t
 const server=createServer(async(req,res)=>{
   const path=new URL(req.url,'http://127.0.0.1').pathname;
   if(!['GET','HEAD'].includes(req.method)){res.writeHead(405,{'Allow':'GET, HEAD'}).end();return;}
+  if(path==='/api/demo/vendors'){res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'}).end(req.method==='HEAD'?undefined:JSON.stringify({demo:true,vendors:createVendors()}));return;}
   const file=files[path];
   if(!file){res.writeHead(404).end('Not found');return;}
   try{const body=await readFile(fileURLToPath(new URL(`../web/${file}`,import.meta.url)));res.writeHead(200,{'Content-Type':types[file.split('.').pop()],'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(req.method==='HEAD'?undefined:body);}
