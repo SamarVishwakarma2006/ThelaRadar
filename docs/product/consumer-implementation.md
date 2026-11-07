@@ -18,3 +18,5 @@ Verified in the local browser: six vendors loaded from the demo endpoint; search
 ## Backend connection prerequisite
 
 No Supabase connector or local project configuration was available during this check. Before real backend integration, identify an owner-controlled development Supabase project. Supply its project URL and publishable key through an ignored local .env file, not a committed file. Never supply a service-role key to frontend code. Database migrations and permission tests must be prepared and applied before real vendor data is accepted. The demo endpoint is not a production backend.
+
+Database foundation update: draft transactional migration prepared under supabase/migrations with areas, vendors, offerings and selling sessions. Includes integrity constraints, indexes, RLS and revoked client permissions. Not executed or connected; no read policies or vendor writes enabled. See supabase/README.md for setup and required database checks.
