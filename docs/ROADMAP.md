@@ -16,7 +16,7 @@ Updated: 2026-11-07. This is the canonical progress tracker. Completion means ev
 | 10 | Specify the first product | Provisional specification prepared | [MVP specification](product/mvp-spec.md); field evidence and implementation acceptance pending |
 | 11 | Design trust, privacy and moderation | Draft policy prepared | [Trust policy](product/trust-and-moderation.md) and [20 edge-case checks](product/edge-cases.md); operator review, implementation and verification pending |
 | 12 | Prototype and test the experience | Interactive prototype built; user testing pending | [Prototype and QA](design/prototype.md); consumer/vendor screens checked locally with fictional data |
-| 13 | Choose architecture and estimate costs | Not started | Architecture, data ownership, costs, backups and decision records |
+| 13 | Choose architecture and estimate costs | Baseline prepared; provisioning and recovery checks pending | [Architecture decision and budget](architecture/pilot-architecture.md); stack, access boundaries, backup targets and Step 14 handoff |
 | 14 | Build the consumer experience | Not started | Working discovery, profiles, evidence, favourites and directions |
 | 15 | Build vendor and administration tools | Not started | Tested updates, ownership, duplicates and moderation flows |
 | 16 | Verify the complete product | Not started | Critical-flow, permissions, expiry, connectivity and recovery checks |
