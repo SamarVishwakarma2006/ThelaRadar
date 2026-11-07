@@ -26,3 +26,5 @@ Foundation verification update: added rollback-only SQL constraint and effective
 ## Local-first persistence
 
 Supabase deferred at owner request. Demo status, sold-out flags and original expiry timestamps persist in browser localStorage across reloads and server restarts. UI updates roll back if saving fails. Stored text is not trusted: only validated status/timestamps/stock are restored over known fixtures. Reset replaces saved demo state. Clearing site storage removes changes; other browsers do not share them. No real authentication or database is implied. Browser persistence QA remains pending.
+
+Local vendor tools: each menu item now has an independent sold-out/restore control. Browser QA marked the second vada-pav vendor item sold out, reloaded, confirmed it remained sold out, then restored it. Syntax and both existing behavioural tests passed. This verifies item persistence, not authentication, cross-device sync or production permissions.
