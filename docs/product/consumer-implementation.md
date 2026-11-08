@@ -32,3 +32,9 @@ Local vendor tools: each menu item now has an independent sold-out/restore contr
 ## Local corrections and review — 8 November 2026
 
 Vendor profiles save bounded correction notes to browser storage; duplicate pending notes are rejected. Footer Local review demo lists notes and supports reviewed/dismissed/reopen states. Reviews never modify listings. Queue limited to 100 records, with explicit failure feedback and no overwrite on malformed storage. No authentication, network submission or production moderation is implied. Clearing browser storage removes reports. Browser QA pending.
+
+## Separate pages and account previews — 8 November 2026
+
+Added /discover, /saved, /vendors and /review routes using the shared application shell, plus standalone /login and /register screens inspired by the supplied split-layout reference. Authentication forms include email, password visibility, registration password confirmation and a regenerating accessible arithmetic challenge. The challenge is explicitly a demo, not a security boundary. Form submission performs local validation only, clears passwords and never stores/transmits credentials or creates a session. Supabase authentication and server-verified CAPTCHA remain deferred. Vendor/review routes are public local demos, not protected admin pages.
+
+Syntax checks, existing tests and route HTTP checks pass. Visual/mobile and full form browser verification remain pending.

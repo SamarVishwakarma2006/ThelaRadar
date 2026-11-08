@@ -25,3 +25,5 @@ body{font-family:'Bricolage Grotesque',Arial,sans-serif;background:#FCFFFF}.bran
 #connection-note{padding:16px;border:1px solid #173540;background:#FCFFFF}.photo-unavailable{display:grid;place-items:center;padding:24px;text-align:center}.photo-unavailable:after{content:attr(data-fallback);font-weight:600}.hero-tile img[hidden]{display:none}
 
 .review-entry{padding:20px 0;border-bottom:1px solid var(--line)}.review-entry p{overflow-wrap:anywhere}.review-entry small{color:var(--muted)}
+
+.page-panel{position:relative;inset:auto;margin:35px auto;display:block;width:min(760px,calc(100% - 32px));max-height:none}.page-panel .close-dialog{display:none}.inner-page footer{margin-top:50px}

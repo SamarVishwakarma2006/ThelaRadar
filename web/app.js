@@ -2,7 +2,7 @@ import {createVendors,availability,matches} from './data.js';
 
 const $ = selector => document.querySelector(selector);
 let vendors = [], loadState='loading';
-let category = 'all', savedOnly = false, toastTimer;
+let category = 'all', savedOnly = location.pathname==='/saved', toastTimer;
 let saved = [];
 try { const value = JSON.parse(localStorage.getItem('thelaradar-favourites') || '[]'); if (Array.isArray(value)) saved = value.filter(id => typeof id === 'string'); } catch { /* Browsing remains usable without storage. */ }
 const profile = $('#profile-dialog'), dashboard = $('#dashboard-dialog');
@@ -60,7 +60,7 @@ function openDashboard(id='vada') {
   const v=vendors.find(v=>v.id===id)||vendors[0], status=availability(v);
   dashboard.dataset.vendor=v.id;
   dashboard.innerHTML=`<div class="dialog-header"><span>FOR VENDORS / INTERACTIVE PREVIEW</span><button class="close-dialog" aria-label="Close vendor dashboard">×</button></div><div class="dialog-body"><div class="eyebrow">A LITTLE UPDATE. A BIG HELP.</div><h2>Hello, neighbourhood.</h2><p>Try a sample update and see the discovery cards change.</p><p class="demo-callout">No sign-in or real account. Demo changes persist in this browser. Clearing site storage removes them. No real account or cross-device sync.</p><label for="dashboard-vendor">Sample vendor</label><select id="dashboard-vendor" class="dashboard-select">${vendors.map(item=>`<option value="${item.id}" ${item.id===v.id?'selected':''}>${escape(item.name)}</option>`).join('')}</select><span class="status ${status.kind}">${status.label}</span><div class="metric-row"><div><strong>—</strong><small>Visits · not measured</small></div><div><strong>${v.items.length}</strong><small>Sample menu items</small></div><div><strong>2 hr</strong><small>Demo expiry ceiling</small></div></div><h3>Today’s sample menu</h3><ul class="menu-list">${v.items.map((item,index)=>`<li><span>${escape(item.name)} · ₹${item.price}</span><button class="button outline" data-stock="${index}" aria-pressed="${!!item.soldOut}">${item.soldOut?'Sold out · restore':'Available · mark sold out'}</button></li>`).join('')}</ul><div class="dashboard-controls"><button class="button" data-update="serving">I’m serving · demo</button><button class="button outline" data-update="finished">Finished for today</button><button class="button outline" data-update="hidden">Stop location sharing</button></div><p>“Finished” ends the sample session. “Stop location sharing” also removes this sample from discovery. “I’m serving” explicitly republishes this fictional location.</p><button class="text-button" data-reset-demo>Reset all sample vendors ↻</button></div>`;
-  if(!dashboard.open) dashboard.showModal();
+  if(location.pathname==='/vendors'){dashboard.setAttribute('open','');dashboard.classList.add('page-panel');}else if(!dashboard.open) dashboard.showModal();
 }
 $('#hero-search').addEventListener('submit',event=>{event.preventDefault();render();$('#discover').scrollIntoView();});
 $('#search').addEventListener('input',render);
@@ -69,8 +69,8 @@ $('#available').addEventListener('change',render);
 $('#categories').addEventListener('click',event=>{const button=event.target.closest('[data-category]');if(button){category=button.dataset.category;render();}});
 $('#clear-filters').addEventListener('click',reset);
 $('#empty-reset').addEventListener('click',reset);
-$('#saved-nav').addEventListener('click',()=>{savedOnly=!savedOnly;render();$('#discover').scrollIntoView();});
-$('#vendor-nav').addEventListener('click',()=>openDashboard());
+$('#saved-nav').addEventListener('click',()=>{location.href='/saved';});
+$('#vendor-nav').addEventListener('click',()=>{location.href='/vendors';});
 $('#vendor-cta').addEventListener('click',()=>openDashboard());
 $('#dashboard-dialog').addEventListener('change',event=>{if(event.target.id==='dashboard-vendor')openDashboard(event.target.value);});
 document.addEventListener('click',event=>{
@@ -150,7 +150,7 @@ async function loadVendors(){
     // This endpoint is deliberately restricted to our known fictional fixture set.
     const expected=createVendors();
     if(data.demo!==true||!Array.isArray(data.vendors)||data.vendors.length!==expected.length||data.vendors.some((v,i)=>JSON.stringify({...v,confirmedAt:expected[i].confirmedAt,expiresAt:expected[i].expiresAt})!==JSON.stringify(expected[i])||![v.confirmedAt,v.expiresAt].every(t=>t===null||Number.isFinite(t))))throw new Error('Invalid demo data');
-    vendors=restoreDemo(data.vendors);loadState='ready';render();syncProfileRoute();connectivity();
+    vendors=restoreDemo(data.vendors);loadState='ready';render();syncProfileRoute();connectivity();if(location.pathname==='/vendors')openDashboard();if(location.pathname==='/review')openReview();
   }catch{loadState='error';render();}
   finally{loadVendors.pending=false;}
 }
@@ -187,10 +187,18 @@ function openReview(){
  try{const rows=readReports();body=rows.length?rows.map(r=>'<article class="review-entry"><h3>'+escape(vendors.find(v=>v.id===r.vendor)?.name||'Unavailable sample vendor')+'</h3><p>'+escape(r.type)+' · '+escape(r.status)+'</p><p>'+escape(r.note)+'</p><small>'+escape(new Date(r.createdAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}))+' IST</small><div class="dialog-actions">'+(r.status==='pending'?'<button class="button" data-report-id="'+escape(r.id)+'" data-decision="reviewed">Mark reviewed</button><button class="button outline" data-report-id="'+escape(r.id)+'" data-decision="dismissed">Dismiss</button>':'<button class="text-button" data-report-id="'+escape(r.id)+'" data-decision="pending">Reopen</button>')+'</div></article>').join(''):'<p>No local corrections yet. Add one from a vendor profile.</p>';}
  catch{body='<p role="alert">Cannot read local reports. No records were overwritten.</p>';}
  dialog.innerHTML='<div class="dialog-header"><span>LOCAL REVIEW DEMO</span><button class="close-dialog" aria-label="Close review queue">×</button></div><div class="dialog-body"><h2>Neighbourhood notes.</h2><p class="demo-callout">Browser-only demonstration. Anyone using this browser can review these notes. This is not an authenticated admin panel. Reviewing never changes vendor details automatically.</p>'+body+'</div>';
- if(!dialog.open)dialog.showModal();
+ if(location.pathname==='/review'){dialog.setAttribute('open','');dialog.classList.add('page-panel');}else if(!dialog.open)dialog.showModal();
 }
-$('#review-demo').addEventListener('click',openReview);
+$('#review-demo').addEventListener('click',()=>{location.href='/review';});
 $('#review-dialog').addEventListener('click',event=>{
  const button=event.target.closest('[data-decision]');if(!button)return;
  try{const rows=readReports(),row=rows.find(r=>r.id===button.dataset.reportId);if(!row)return;row.status=button.dataset.decision;row.reviewedAt=Date.now();localStorage.setItem('thelaradar-reports-v1',JSON.stringify(rows));openReview();toast('Review decision saved locally.');}catch{toast('Could not save the review decision.');}
 });
+
+const page=location.pathname;
+if(page!=='/'&&page!=='/index.html'){
+ document.body.classList.add('inner-page');
+ document.querySelectorAll('#home,.trust-strip,.vendor-banner,.how-it-works').forEach(el=>el.hidden=true);
+ if(page==='/vendors'||page==='/review')$('#discover').hidden=true;
+ if(page==='/saved')document.querySelector('.section-top h2').textContent='Your saved thelas.';
+}

@@ -4,6 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 
 const files={'/':'index.html','/index.html':'index.html','/styles.css':'styles.css','/app.js':'app.js','/data.js':'data.js'};
+Object.assign(files,{'/discover':'index.html','/saved':'index.html','/vendors':'index.html','/review':'index.html','/login':'auth.html','/register':'auth.html','/auth.css':'auth.css','/auth.js':'auth.js'});
 const types={html:'text/html; charset=utf-8',css:'text/css; charset=utf-8',js:'text/javascript; charset=utf-8'};
 const server=createServer(async(req,res)=>{
   const path=new URL(req.url,'http://127.0.0.1').pathname;
