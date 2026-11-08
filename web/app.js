@@ -52,7 +52,7 @@ function openProfile(id) {
   const v=vendors.find(v=>v.id===id); if(!v || v.state==='hidden'){ if(profile.open)profile.close(); toast('This vendor is unavailable or no longer sharing.'); return; }
   const status=availability(v),hidden=v.state==='hidden';
   profile.dataset.vendor=id;
-  profile.innerHTML=`<div class="dialog-header"><span>THELARADAR / SAMPLE VENDOR</span><button class="close-dialog" aria-label="Close vendor profile">×</button></div><div class="dialog-body"><div class="card-art" style="--dish-bg:${v.color}">${foodArt(v.art)}</div><div class="eyebrow">${v.tag}</div><h2>${escape(v.name)}</h2><p>${hidden?'Location hidden in this preview.':`⌖ ${v.landmark}`}</p><span class="status ${status.kind}">${status.label}</span><div class="detail-meta"><strong>${v.hours} · illustrative schedule</strong>${status.live?`Sample confirmation expires at ${clock(v.expiresAt)} IST. Item stock is separate.`:'Usual hours do not confirm attendance today.'}</div><h3>On the sample menu</h3><p>Illustrative prices · fixture date 7 November 2026</p><ul class="menu-list">${v.items.map(i=>`<li><span>${i.name}${i.soldOut?' <small>· Demo sold out</small>':''}</span><span>₹${i.price}</span></li>`).join('')}</ul><div class="dialog-actions"><button class="button" disabled aria-describedby="directions-note">Directions unavailable</button><button class="button outline" data-save="${v.id}">${saved.includes(v.id)?'Remove favourite':'Save this thela'}</button></div><p id="directions-note" class="demo-callout">Fictional vendor. No real location, live stock, review score or business verification. Directions are not connected.</p><details class="report-form"><summary>Something looks off? Preview a correction</summary><form id="report-form"><label for="report-type">What needs correcting?</label><select id="report-type"><option>Location or landmark</option><option>Timings or attendance</option><option>Menu or price</option><option>Duplicate listing</option></select><label for="report-note">Details (sample text only)</label><textarea id="report-note" maxlength="300" required placeholder="Try a sample correction. Do not enter personal details."></textarea><button class="button" type="submit">Preview report</button></form><p id="report-result" role="status"></p></details></div>`;
+  profile.innerHTML=`<div class="dialog-header"><span>THELARADAR / SAMPLE VENDOR</span><button class="close-dialog" aria-label="Close vendor profile">×</button></div><div class="dialog-body"><div class="card-art" style="--dish-bg:${v.color}">${foodArt(v.art)}</div><div class="eyebrow">${v.tag}</div><h2>${escape(v.name)}</h2><p>${hidden?'Location hidden in this preview.':`⌖ ${v.landmark}`}</p><span class="status ${status.kind}">${status.label}</span><div class="detail-meta"><strong>${v.hours} · illustrative schedule</strong>${status.live?`Sample confirmation expires at ${clock(v.expiresAt)} IST. Item stock is separate.`:'Usual hours do not confirm attendance today.'}</div><h3>On the sample menu</h3><p>Illustrative prices · fixture date 7 November 2026</p><ul class="menu-list">${v.items.map(i=>`<li><span>${i.name}${i.soldOut?' <small>· Demo sold out</small>':''}</span><span>₹${i.price}</span></li>`).join('')}</ul><div class="dialog-actions"><button class="button" disabled aria-describedby="directions-note">Directions unavailable</button><button class="button outline" data-save="${v.id}">${saved.includes(v.id)?'Remove favourite':'Save this thela'}</button></div><p id="directions-note" class="demo-callout">Fictional vendor. No real location, live stock, review score or business verification. Directions are not connected.</p><details class="report-form"><summary>Something looks off? Save a local correction</summary><form id="report-form"><label for="report-type">What needs correcting?</label><select id="report-type"><option>Location or landmark</option><option>Timings or attendance</option><option>Menu or price</option><option>Duplicate listing</option></select><label for="report-note">Details (sample text only)</label><textarea id="report-note" maxlength="300" required placeholder="Try a sample correction. Do not enter personal details."></textarea><button class="button" type="submit">Save report locally</button></form><p id="report-result" role="status"></p></details></div>`;
   if(!profile.open) profile.showModal();
 }
 function openDashboard(id='vada') {
@@ -95,7 +95,20 @@ document.addEventListener('click',event=>{
   }
   if(event.target.closest('[data-reset-demo]')){const next=createVendors();if(persistDemo(next)){vendors=next;render();openDashboard();toast('Saved sample vendors reset.');}}
 });
-profile.addEventListener('submit',event=>{if(event.target.id==='report-form'){event.preventDefault();$('#report-result').textContent='Preview complete. This report was not sent or stored; no moderation service is connected.';event.target.reset();}});
+profile.addEventListener('submit',event=>{
+ if(event.target.id!=='report-form')return;
+ event.preventDefault();
+ const note=$('#report-note').value.trim(),type=$('#report-type').value,vendor=profile.dataset.vendor;
+ if(!note){$('#report-result').textContent='Add a short correction first.';return;}
+ try{
+  const rows=readReports();
+  if(rows.length>=100)throw new Error('Queue full (100 reports). Review existing reports first.');
+  if(rows.some(r=>r.vendor===vendor&&r.note===note&&r.type===type&&r.status==='pending'))throw new Error('This correction is already pending locally.');
+  rows.push({id:crypto.randomUUID(),vendor,type,note:note.slice(0,300),status:'pending',createdAt:Date.now()});
+  localStorage.setItem('thelaradar-reports-v1',JSON.stringify(rows));
+  $('#report-result').textContent='Saved in this browser only. Open Local review demo in the footer. Nothing was sent to a vendor or moderator.';event.target.reset();
+ }catch(error){$('#report-result').textContent='Not saved. '+error.message;}
+});
 for(const dialog of [profile,dashboard])dialog.addEventListener('click',event=>{if(event.target===dialog){const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();}});
 setInterval(()=>{render();for(const dialog of [profile,dashboard]){const badge=dialog.querySelector('.status');if(dialog.open&&badge){const status=availability(vendors.find(v=>v.id===dialog.dataset.vendor));badge.className=`status ${status.kind}`;badge.textContent=status.label;}}},30000);
 render();
@@ -162,3 +175,22 @@ function restoreDemo(base){
   });
  }catch{toast('Saved demo data could not be read. Fresh samples shown; reset the demo to replace saved data.');return base;}
 }
+
+function readReports(){
+ const rows=JSON.parse(localStorage.getItem('thelaradar-reports-v1')||'[]');
+ if(!Array.isArray(rows)||rows.length>100||rows.some(r=>!r||typeof r.id!=='string'||typeof r.vendor!=='string'||typeof r.type!=='string'||typeof r.note!=='string'||r.note.length>300||!['pending','reviewed','dismissed'].includes(r.status)||!Number.isFinite(r.createdAt)))throw new Error('Local report data is unreadable.');
+ return rows;
+}
+function openReview(){
+ const dialog=$('#review-dialog');
+ let body;
+ try{const rows=readReports();body=rows.length?rows.map(r=>'<article class="review-entry"><h3>'+escape(vendors.find(v=>v.id===r.vendor)?.name||'Unavailable sample vendor')+'</h3><p>'+escape(r.type)+' · '+escape(r.status)+'</p><p>'+escape(r.note)+'</p><small>'+escape(new Date(r.createdAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'}))+' IST</small><div class="dialog-actions">'+(r.status==='pending'?'<button class="button" data-report-id="'+escape(r.id)+'" data-decision="reviewed">Mark reviewed</button><button class="button outline" data-report-id="'+escape(r.id)+'" data-decision="dismissed">Dismiss</button>':'<button class="text-button" data-report-id="'+escape(r.id)+'" data-decision="pending">Reopen</button>')+'</div></article>').join(''):'<p>No local corrections yet. Add one from a vendor profile.</p>';}
+ catch{body='<p role="alert">Cannot read local reports. No records were overwritten.</p>';}
+ dialog.innerHTML='<div class="dialog-header"><span>LOCAL REVIEW DEMO</span><button class="close-dialog" aria-label="Close review queue">×</button></div><div class="dialog-body"><h2>Neighbourhood notes.</h2><p class="demo-callout">Browser-only demonstration. Anyone using this browser can review these notes. This is not an authenticated admin panel. Reviewing never changes vendor details automatically.</p>'+body+'</div>';
+ if(!dialog.open)dialog.showModal();
+}
+$('#review-demo').addEventListener('click',openReview);
+$('#review-dialog').addEventListener('click',event=>{
+ const button=event.target.closest('[data-decision]');if(!button)return;
+ try{const rows=readReports(),row=rows.find(r=>r.id===button.dataset.reportId);if(!row)return;row.status=button.dataset.decision;row.reviewedAt=Date.now();localStorage.setItem('thelaradar-reports-v1',JSON.stringify(rows));openReview();toast('Review decision saved locally.');}catch{toast('Could not save the review decision.');}
+});

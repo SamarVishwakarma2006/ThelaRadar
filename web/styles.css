@@ -23,3 +23,5 @@ body{font-family:'Bricolage Grotesque',Arial,sans-serif;background:#FCFFFF}.bran
 @media(max-width:760px){.site-header{padding:0 18px;height:68px}.site-header .brand{font-size:20px}.site-header nav{gap:12px}.hero.wrap{padding:24px 16px 18px}.hero h1{font-size:clamp(54px,12vw,80px)}.hero-copy>p{font-size:13px}.hero-gallery{margin-top:28px;gap:10px}.hero-tile{height:220px}.tile-1,.tile-3{border-radius:120px}}
 
 #connection-note{padding:16px;border:1px solid #173540;background:#FCFFFF}.photo-unavailable{display:grid;place-items:center;padding:24px;text-align:center}.photo-unavailable:after{content:attr(data-fallback);font-weight:600}.hero-tile img[hidden]{display:none}
+
+.review-entry{padding:20px 0;border-bottom:1px solid var(--line)}.review-entry p{overflow-wrap:anywhere}.review-entry small{color:var(--muted)}
