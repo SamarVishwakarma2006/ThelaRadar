@@ -202,3 +202,8 @@ if(page!=='/'&&page!=='/index.html'){
  if(page==='/vendors'||page==='/review')$('#discover').hidden=true;
  if(page==='/saved')document.querySelector('.section-top h2').textContent='Your saved thelas.';
 }
+
+// Keep standalone tools inside main content, before the footer.
+if(page==='/vendors'||page==='/review')document.querySelector('main').append($(page==='/vendors'?'#dashboard-dialog':'#review-dialog'));
+const pageTitles={'/discover':'Discover','/saved':'Saved vendors','/vendors':'Vendor demo','/review':'Local review'};
+if(pageTitles[page])document.title='ThelaRadar — '+pageTitles[page];

@@ -38,3 +38,7 @@ Vendor profiles save bounded correction notes to browser storage; duplicate pend
 Added /discover, /saved, /vendors and /review routes using the shared application shell, plus standalone /login and /register screens inspired by the supplied split-layout reference. Authentication forms include email, password visibility, registration password confirmation and a regenerating accessible arithmetic challenge. The challenge is explicitly a demo, not a security boundary. Form submission performs local validation only, clears passwords and never stores/transmits credentials or creates a session. Supabase authentication and server-verified CAPTCHA remain deferred. Vendor/review routes are public local demos, not protected admin pages.
 
 Syntax checks, existing tests and route HTTP checks pass. Visual/mobile and full form browser verification remain pending.
+
+## Separate-page browser checks — 8 November 2026
+
+Desktop and 390px mobile account layouts inspected. Empty registration submission triggers required-email validation; Show switches password input visibility. Register-to-login and account-free discovery navigation work. Vendor and review routes load. Fixed standalone tool panels appearing after the footer and restored the mobile account link; verified panel inside main, login link visible and no horizontal overflow at 390px. Added distinct document titles and auth.js to syntax checks. CAPTCHA completion, successful form submission and report-to-review lifecycle remain unverified. Existing tests and syntax checks pass.
