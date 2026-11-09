@@ -74,3 +74,24 @@ test('drafts are isolated by vendor and form, and reverting clears only that dra
  assert.equal(runInNewContext('editorDrafts.has("vada:vendor-edit-form")',context),true);
  assert.equal(runInNewContext('editorDrafts.has("poha:vendor-edit-form")',context),false);
 });
+
+test('added and removed menu items restore with their own stock and enforce count limits',async()=>{
+ const {createVendors}=await import('./data.js');
+ const helpers=app.slice(app.indexOf('function menuFields('),app.indexOf("dashboard.addEventListener('submit'"));
+ const restore=app.slice(app.indexOf('function restoreDemo('),app.indexOf('function readReports('));
+ const base=createVendors(),edited=structuredClone(base);
+ edited[0].items=[{name:'Remaining snack',price:12,soldOut:true},{name:'New snack',price:18,soldOut:false},{name:'Third snack',price:20,soldOut:false}];
+ const context={base,localStorage:{getItem:()=>JSON.stringify(edited)},toast(){},persistDemo(){}};
+ let result=runInNewContext(helpers+restore+';restoreDemo(base)',context);
+ assert.equal(result[0].items.length,3);
+ assert.equal(result[0].items[0].soldOut,true);
+ edited[0].items.splice(0,2);
+ result=runInNewContext(helpers+restore+';restoreDemo(base)',context);
+ assert.equal(result[0].items.length,1);
+ assert.equal(result[0].items[0].name,'Third snack');
+ assert.equal(result[0].items[0].soldOut,false);
+ for(const items of [[],Array.from({length:21},(_,i)=>({name:'Item '+i,price:10}))]){
+  context.items=items;
+  assert.throws(()=>runInNewContext(helpers+';menuFields(items)',context),/between 1 and 20/);
+ }
+});

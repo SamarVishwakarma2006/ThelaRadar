@@ -87,3 +87,9 @@ Added skip links to application/account shells, visible focus for summaries/text
 - beforeunload requests the browser's standard leave warning; browser support varies (especially mobile termination). Drafts are not durable across closing/reloading.
 - Cross-tab updates remain blocked while drafts exist so stale saves cannot overwrite newer storage.
 - Automated draft isolation/reversion coverage added. Navigation stayed on the vendor page during QA; native warning text was not observable through automation.
+
+## Add/remove menu items — 9 November 2026
+- Supports 1–20 items, draft additions/removals and reverting the unsaved menu. Save applies the change locally.
+- Restore accepts variable-length menus with validated names, prices and per-item stock.
+- Stock/serving controls require saving or reverting a menu draft first, preventing stale draft stock from overwriting updates.
+- Browser verified add, remove and revert; original sample menu retained. Automated tests verify variable-length restore and count limits.

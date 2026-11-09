@@ -55,9 +55,14 @@ function openProfile(id) {
   profile.innerHTML=`<div class="dialog-header"><span>THELARADAR / SAMPLE VENDOR</span><button class="close-dialog" aria-label="Close vendor profile">×</button></div><div class="dialog-body"><div class="card-art" style="--dish-bg:${v.color}">${foodArt(v.art)}</div><div class="eyebrow">${v.tag}</div><h2>${escape(v.name)}</h2><p>${hidden?'Location hidden in this preview.':`⌖ ${escape(v.landmark)}`}</p><span class="status ${status.kind}">${status.label}</span><div class="detail-meta"><strong>${escape(v.hours)} · illustrative schedule</strong>${status.live?`Sample confirmation expires at ${clock(v.expiresAt)} IST. Item stock is separate.`:'Usual hours do not confirm attendance today.'}</div><h3>On the sample menu</h3><p>Illustrative prices · fixture date 7 November 2026</p><ul class="menu-list">${v.items.map(i=>`<li><span>${escape(i.name)}${i.soldOut?' <small>· Demo sold out</small>':''}</span><span>₹${i.price}</span></li>`).join('')}</ul><div class="dialog-actions"><button class="button" disabled aria-describedby="directions-note">Directions unavailable</button><button class="button outline" data-save="${v.id}">${saved.includes(v.id)?'Remove favourite':'Save this thela'}</button></div><p id="directions-note" class="demo-callout">Fictional vendor. No real location, live stock, review score or business verification. Directions are not connected.</p><details class="report-form"><summary>Something looks off? Save a local correction</summary><form id="report-form"><label for="report-type">What needs correcting?</label><select id="report-type"><option>Location or landmark</option><option>Timings or attendance</option><option>Menu or price</option><option>Duplicate listing</option></select><label for="report-note">Details (sample text only)</label><textarea id="report-note" maxlength="300" required placeholder="Try a sample correction. Do not enter personal details."></textarea><button class="button" type="submit">Save report locally</button></form><p id="report-result" role="status"></p></details></div>`;
   if(!profile.open) profile.showModal();
 }
+function menuRows(items){return `${items.map((item,index)=>`<fieldset data-sold-out="${!!item.soldOut}"><legend>Item ${index+1}</legend><label for="menu-name-${index}">Item name</label><input id="menu-name-${index}" name="name-${index}" maxlength="80" required value="${escape(item.name)}"><label for="menu-price-${index}">Price (₹)</label><input id="menu-price-${index}" name="price-${index}" type="number" min="0.01" max="10000" step="0.01" required value="${item.price}"><button type="button" class="button outline" data-remove-item="${index}">Remove item ${index+1}</button></fieldset>`).join('')}`;}
+function readMenuDraft(form){
+ return Array.from(form.querySelectorAll('fieldset')).map(row=>({name:row.querySelector('input[name^="name-"]').value,price:row.querySelector('input[name^="price-"]').value,soldOut:row.dataset.soldOut==='true'}));
+}
 const editorDrafts=new Map();
 function rememberDraft(form){
  const key=dashboard.dataset.vendor+':'+form.id;
+ if(form.id==='menu-edit-form'){editorDrafts.set(key,readMenuDraft(form));return;}
  const fields=Array.from(form.querySelectorAll('input'));
  if(fields.some(input=>input.value!==input.defaultValue))editorDrafts.set(key,Object.fromEntries(fields.map(input=>[input.name,input.value])));
  else editorDrafts.delete(key);
@@ -66,6 +71,21 @@ dashboard.addEventListener('input',event=>{
  const form=event.target.closest('#vendor-edit-form,#menu-edit-form');
  if(form)rememberDraft(form);
 });
+dashboard.addEventListener('click',event=>{
+ const add=event.target.closest('[data-add-item]'),remove=event.target.closest('[data-remove-item]'),revert=event.target.closest('[data-revert-menu]');
+ if(!add&&!remove&&!revert)return;
+ const form=$('#menu-edit-form'),key=dashboard.dataset.vendor+':menu-edit-form';
+ let items=readMenuDraft(form);
+ if(revert){items=vendors.find(v=>v.id===dashboard.dataset.vendor).items;editorDrafts.delete(key);}
+ else{
+  if(add){if(items.length>=20){$('#menu-edit-result').textContent='Maximum 20 items.';return;}items.push({name:'',price:'',soldOut:false});}
+  if(remove){if(items.length<=1){$('#menu-edit-result').textContent='Keep at least one item.';return;}items.splice(Number(remove.dataset.removeItem),1);}
+  editorDrafts.set(key,items);
+ }
+ $('#menu-rows').innerHTML=menuRows(items);
+ $('#menu-edit-result').textContent=revert?'Saved menu restored.':'Draft updated. Save to apply, or revert to undo.';
+ if(add)$('#menu-rows').lastElementChild.querySelector('input').focus();
+});
 window.addEventListener('beforeunload',event=>{
  if(editorDrafts.size){event.preventDefault();event.returnValue='';}
 });
@@ -73,15 +93,16 @@ function openDashboard(id='vada') {
   if(loadState!=='ready'||!vendors.length){toast('Load the sample vendors first.');return;}
   const v=vendors.find(v=>v.id===id)||vendors[0], status=availability(v);
   dashboard.dataset.vendor=v.id;
-  dashboard.innerHTML=`<div class="dialog-header"><span>FOR VENDORS / INTERACTIVE PREVIEW</span><button class="close-dialog" aria-label="Close vendor dashboard">×</button></div><div class="dialog-body"><div class="eyebrow">A LITTLE UPDATE. A BIG HELP.</div><h2>Hello, neighbourhood.</h2><p>Try a sample update and see the discovery cards change.</p><p class="demo-callout">No sign-in or real account. Demo changes persist in this browser. Clearing site storage removes them. No real account or cross-device sync.</p><label for="dashboard-vendor">Sample vendor</label><select id="dashboard-vendor" class="dashboard-select">${vendors.map(item=>`<option value="${item.id}" ${item.id===v.id?'selected':''}>${escape(item.name)}</option>`).join('')}</select><span class="status ${status.kind}">${status.label}</span><div class="metric-row"><div><strong>—</strong><small>Visits · not measured</small></div><div><strong>${v.items.length}</strong><small>Sample menu items</small></div><div><strong>2 hr</strong><small>Demo expiry ceiling</small></div></div><details class="report-form"><summary>Edit sample profile</summary><form id="vendor-edit-form"><p>Sample details only. Usual hours do not confirm attendance.</p><label for="edit-name">Stall name</label><input id="edit-name" name="name" required maxlength="100" value="${escape(v.name)}"><label for="edit-landmark">Public selling landmark</label><input id="edit-landmark" name="landmark" required maxlength="200" value="${escape(v.landmark)}"><label for="edit-hours">Usual hours (IST)</label><input id="edit-hours" name="hours" required maxlength="100" value="${escape(v.hours)}"><button class="button" type="submit">Save sample profile</button><p id="vendor-edit-result" role="status"></p></form></details><details class="report-form"><summary>Edit menu and prices</summary><form id="menu-edit-form"><p>Update existing sample items. Prices in rupees, from ₹0.01 to ₹10,000.</p>${v.items.map((item,index)=>`<fieldset><legend>Item ${index+1}</legend><label for="menu-name-${index}">Item name</label><input id="menu-name-${index}" name="name-${index}" maxlength="80" required value="${escape(item.name)}"><label for="menu-price-${index}">Price (₹)</label><input id="menu-price-${index}" name="price-${index}" type="number" min="0.01" max="10000" step="0.01" required value="${item.price}"></fieldset>`).join('')}<button class="button" type="submit">Save sample menu</button><p id="menu-edit-result" role="status"></p></form></details><h3>Today’s sample menu</h3><ul class="menu-list">${v.items.map((item,index)=>`<li><span>${escape(item.name)} · ₹${item.price}</span><button class="button outline" data-stock="${index}" aria-label="${escape(item.name)}: ${item.soldOut?'sold out, restore availability':'available, mark sold out'}" aria-pressed="${!!item.soldOut}">${item.soldOut?'Sold out · restore':'Available · mark sold out'}</button></li>`).join('')}</ul><div class="dashboard-controls"><button class="button" data-update="serving">I’m serving · demo</button><button class="button outline" data-update="finished">Finished for today</button><button class="button outline" data-update="hidden">Stop location sharing</button></div><p>“Finished” ends the sample session. “Stop location sharing” also removes this sample from discovery. “I’m serving” explicitly republishes this fictional location.</p><button class="text-button" data-reset-demo>Reset all sample vendors ↻</button></div>`;
+  dashboard.innerHTML=`<div class="dialog-header"><span>FOR VENDORS / INTERACTIVE PREVIEW</span><button class="close-dialog" aria-label="Close vendor dashboard">×</button></div><div class="dialog-body"><div class="eyebrow">A LITTLE UPDATE. A BIG HELP.</div><h2>Hello, neighbourhood.</h2><p>Try a sample update and see the discovery cards change.</p><p class="demo-callout">No sign-in or real account. Demo changes persist in this browser. Clearing site storage removes them. No real account or cross-device sync.</p><label for="dashboard-vendor">Sample vendor</label><select id="dashboard-vendor" class="dashboard-select">${vendors.map(item=>`<option value="${item.id}" ${item.id===v.id?'selected':''}>${escape(item.name)}</option>`).join('')}</select><span class="status ${status.kind}">${status.label}</span><div class="metric-row"><div><strong>—</strong><small>Visits · not measured</small></div><div><strong>${v.items.length}</strong><small>Sample menu items</small></div><div><strong>2 hr</strong><small>Demo expiry ceiling</small></div></div><details class="report-form"><summary>Edit sample profile</summary><form id="vendor-edit-form"><p>Sample details only. Usual hours do not confirm attendance.</p><label for="edit-name">Stall name</label><input id="edit-name" name="name" required maxlength="100" value="${escape(v.name)}"><label for="edit-landmark">Public selling landmark</label><input id="edit-landmark" name="landmark" required maxlength="200" value="${escape(v.landmark)}"><label for="edit-hours">Usual hours (IST)</label><input id="edit-hours" name="hours" required maxlength="100" value="${escape(v.hours)}"><button class="button" type="submit">Save sample profile</button><p id="vendor-edit-result" role="status"></p></form></details><details class="report-form"><summary>Edit menu and prices</summary><form id="menu-edit-form"><p>Add or remove sample items (1–20). Changes apply only when saved. Prices in rupees, from ₹0.01 to ₹10,000.</p><div id="menu-rows">${menuRows(v.items)}</div><button type="button" class="button outline" data-add-item>Add item</button><button type="button" class="text-button" data-revert-menu>Revert unsaved menu changes</button><button class="button" type="submit">Save sample menu</button><p id="menu-edit-result" role="status"></p></form></details><h3>Today’s sample menu</h3><ul class="menu-list">${v.items.map((item,index)=>`<li><span>${escape(item.name)} · ₹${item.price}</span><button class="button outline" data-stock="${index}" aria-label="${escape(item.name)}: ${item.soldOut?'sold out, restore availability':'available, mark sold out'}" aria-pressed="${!!item.soldOut}">${item.soldOut?'Sold out · restore':'Available · mark sold out'}</button></li>`).join('')}</ul><div class="dashboard-controls"><button class="button" data-update="serving">I’m serving · demo</button><button class="button outline" data-update="finished">Finished for today</button><button class="button outline" data-update="hidden">Stop location sharing</button></div><p>“Finished” ends the sample session. “Stop location sharing” also removes this sample from discovery. “I’m serving” explicitly republishes this fictional location.</p><button class="text-button" data-reset-demo>Reset all sample vendors ↻</button></div>`;
   for(const form of dashboard.querySelectorAll('#vendor-edit-form,#menu-edit-form')){
    const draft=editorDrafts.get(v.id+':'+form.id);
-   if(draft){for(const input of form.querySelectorAll('input'))input.value=draft[input.name];form.closest('details').open=true;}
+   if(draft){if(form.id==='menu-edit-form')form.querySelector('#menu-rows').innerHTML=menuRows(draft);else for(const input of form.querySelectorAll('input'))input.value=draft[input.name];form.closest('details').open=true;}
   }
   if(editorDrafts.size)dashboard.querySelector('.demo-callout').textContent+=' Unsaved drafts stay here when switching vendors. Save them before leaving this page.';
   if(location.pathname==='/vendors'){dashboard.setAttribute('open','');dashboard.classList.add('page-panel');}else if(!dashboard.open) dashboard.showModal();
 }
 function menuFields(items){
+ if(!Array.isArray(items)||items.length<1||items.length>20)throw new Error('Keep between 1 and 20 menu items.');
  const names=new Set();
  return items.map(item=>{
   if(!item||typeof item.name!=='string'||!item.name.trim()||item.name.trim().length>80)throw new Error('Each item needs a name of up to 80 characters.');
@@ -89,7 +110,8 @@ function menuFields(items){
   if(names.has(key))throw new Error('Give each menu item a different name.');
   names.add(key);
   if(typeof item.price!=='number'||!Number.isFinite(item.price)||item.price<0.01||item.price>10000||Math.abs(item.price*100-Math.round(item.price*100))>0.000001)throw new Error('Prices must be ₹0.01–₹10,000 with at most two decimal places.');
-  return {...item,name,price:Math.round(item.price*100)/100};
+  if(item.soldOut!==undefined&&typeof item.soldOut!=='boolean')throw new Error('Invalid item stock.');
+  return {name,price:Math.round(item.price*100)/100,soldOut:!!item.soldOut};
  });
 }
 function profileFields(value){
@@ -119,7 +141,7 @@ dashboard.addEventListener('submit',event=>{
  event.preventDefault();
  try{
   const next=structuredClone(vendors),vendor=next.find(v=>v.id===dashboard.dataset.vendor),form=new FormData(event.target);
-  vendor.items=menuFields(vendor.items.map((item,index)=>({...item,name:form.get('name-'+index),price:Number(form.get('price-'+index))})));
+  vendor.items=menuFields(readMenuDraft(event.target).map(item=>({...item,price:Number(item.price)})));
   if(!persistDemo(next)){$('#menu-edit-result').textContent='Not saved. Your draft is still here; check the message below.';return;}
   editorDrafts.delete(vendor.id+':'+event.target.id);
   vendors=next;render();openDashboard(vendor.id);
@@ -146,11 +168,13 @@ document.addEventListener('click',event=>{
   if(event.target.closest('[data-demo-directions]'))toast('Directions preview only. No real location is attached to this fictional vendor.');
   const stock=event.target.closest('[data-stock]');
   if(stock){
+    if(editorDrafts.has(dashboard.dataset.vendor+':menu-edit-form')){toast('Save or revert your menu draft before changing stock.');return;}
     const next=structuredClone(vendors),v=next.find(item=>item.id===dashboard.dataset.vendor),index=Number(stock.dataset.stock);
     if(v&&Number.isInteger(index)&&v.items[index]){v.items[index].soldOut=!v.items[index].soldOut;if(persistDemo(next)){vendors=next;render();openDashboard(v.id);toast('Item availability saved in this browser.');}}
   }
   const update=event.target.closest('[data-update]');
   if(update){
+    if(editorDrafts.has(dashboard.dataset.vendor+':menu-edit-form')){toast('Save or revert your menu draft before changing serving status.');return;}
     const previous=structuredClone(vendors);
     const v=vendors.find(item=>item.id===dashboard.dataset.vendor), action=update.dataset.update;
     if(action==='soldout')v.items[0].soldOut=!v.items[0].soldOut;
@@ -237,9 +261,9 @@ function restoreDemo(base){
   if(!Array.isArray(rows)||rows.length!==base.length)throw new Error();
   return base.map((v,i)=>{
    const r=rows[i];
-   if(!r||r.id!==v.id||!['serving','unknown','finished','hidden'].includes(r.state)||![r.confirmedAt,r.expiresAt].every(t=>t===null||(Number.isFinite(t)&&t>=0))||!Array.isArray(r.items)||r.items.length!==v.items.length)throw new Error();
+   if(!r||r.id!==v.id||!['serving','unknown','finished','hidden'].includes(r.state)||![r.confirmedAt,r.expiresAt].every(t=>t===null||(Number.isFinite(t)&&t>=0))||!Array.isArray(r.items))throw new Error();
    if(r.state==='serving'&&(!Number.isFinite(r.confirmedAt)||!Number.isFinite(r.expiresAt)||r.expiresAt<r.confirmedAt||r.expiresAt-r.confirmedAt>7200000))throw new Error();
-   return {...v,...profileFields(r),state:r.state,confirmedAt:r.confirmedAt,expiresAt:r.expiresAt,items:menuFields(v.items.map((item,j)=>{if(r.items[j].soldOut!==undefined&&typeof r.items[j].soldOut!=='boolean')throw new Error();return {...item,name:r.items[j].name,price:r.items[j].price,soldOut:!!r.items[j].soldOut};}))};
+   return {...v,...profileFields(r),state:r.state,confirmedAt:r.confirmedAt,expiresAt:r.expiresAt,items:menuFields(r.items)};
   });
  }catch{toast('Saved demo data could not be read. Fresh samples shown; reset the demo to replace saved data.');return base;}
 }
