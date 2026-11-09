@@ -29,3 +29,8 @@ body{font-family:'Bricolage Grotesque',Arial,sans-serif;background:#FCFFFF}.bran
 .page-panel{position:relative;inset:auto;margin:35px auto;display:block;width:min(760px,calc(100% - 32px));max-height:none}.page-panel .close-dialog{display:none}.inner-page footer{margin-top:50px}
 
 @media(max-width:1000px){.site-header .region{display:inline-block;font-size:10px;padding:8px}.site-header{flex-wrap:wrap;height:auto;min-height:76px;gap:12px;padding-top:14px;padding-bottom:14px}.site-header nav{order:3;width:100%;justify-content:center}}
+
+/* Keyboard access and narrow-screen controls. */
+.skip-link{position:fixed;left:12px;top:-100px;padding:12px 18px;background:#FCFFFF;color:#173540;border:2px solid #173540;z-index:1000}.skip-link:focus{top:12px}
+:where(a,button,input,select,textarea,summary):focus-visible{outline:3px solid #173540;outline-offset:3px}.search-box:focus-within{outline:3px solid #173540;outline-offset:3px}summary{cursor:pointer;min-height:44px;padding:10px 0}.close-dialog,.save-button{min-width:44px;min-height:44px}
+@media(max-width:480px){.menu-list li{flex-wrap:wrap;gap:12px}.menu-list button{white-space:normal;max-width:100%;min-height:44px}.dialog-actions{flex-wrap:wrap}.dialog-actions .button{white-space:normal}.categories button,.profile-button{min-height:44px}}

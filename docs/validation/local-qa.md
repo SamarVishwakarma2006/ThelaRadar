@@ -45,3 +45,7 @@ To reproduce: stop the preview, set THELARADAR_FAIL_ONCE=1 for the server proces
 Added opt-in THELARADAR_DELAY_ONCE=1 (first demo GET waits 12 seconds). Browser showed loading, then the error state, and Retry recovered five visible listings while retaining the withdrawn sample. Initial visibility wait timed out before the error was observed; no precise wall-clock timeout guarantee is claimed for background tabs. One-shot delay is consumed and subsequent requests serve normally.
 
 Added three Node fault-injection tests against the shipped persistDemo function: denied storage reads, failed writes and stale snapshots return false without advancing the snapshot or overwriting newer data. All five tests and syntax checks pass. These are storage-function tests, not browser-wide quota tests or simultaneous-write guarantees.
+
+## Keyboard and narrow layout — 9 November 2026
+
+Added skip links to application/account shells, visible focus for summaries/textareas/search, 44px close/save controls, wrapping menu/actions on narrow screens and item-specific stock-control labels. Saved navigation now uses aria-current instead of a misleading toggle state. Browser Tab reached Skip to content and Enter focused main-content. Vendor page document width stayed within a 320px viewport. Syntax and all five tests pass. This is targeted keyboard/layout QA, not a full screen-reader or WCAG audit.
