@@ -49,3 +49,11 @@ Added three Node fault-injection tests against the shipped persistDemo function:
 ## Keyboard and narrow layout — 9 November 2026
 
 Added skip links to application/account shells, visible focus for summaries/textareas/search, 44px close/save controls, wrapping menu/actions on narrow screens and item-specific stock-control labels. Saved navigation now uses aria-current instead of a misleading toggle state. Browser Tab reached Skip to content and Enter focused main-content. Vendor page document width stayed within a 320px viewport. Syntax and all five tests pass. This is targeted keyboard/layout QA, not a full screen-reader or WCAG audit.
+
+## Community flow QA — 9 November 2026
+- Browser verified: suggestion creation, duplicate rejection, sighting submission, one-minute cooldown, reload persistence.
+- Test record clearly labelled "QA fictional stall"; no real-world sighting claimed.
+- Fixed: unreadable storage now hides stale listings; malformed null reports are rejected; submit handler enforces field lengths.
+- Added regression coverage for corrupt/denied storage, escaped names, expired/future sightings and conflicting reports.
+- Community script now included in npm run check.
+- Multi-person sharing remains deferred until a shared backend is connected.
