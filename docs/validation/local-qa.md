@@ -14,11 +14,11 @@ Scope: browser-local demo, not production acceptance or customer validation.
 
 One labelled QA report remains dismissed in the test browser. No real vendor information was changed, and no report was transmitted outside browser storage.
 
-## Remaining checks
+## Remaining checks (current summary)
 
 - Storage blocked/full/corrupted: report creation and decisions must fail honestly without losing existing records.
-- Offline and request timeout/retry behaviour; expired evidence on resumed tabs.
-- Multi-tab changes: current local snapshots may overwrite each other; resolve before claiming reliable concurrent editing.
+- Full offline behaviour and expired evidence on resumed tabs. HTTP failure and timeout/retry checks passed below.
+- Simultaneous writes remain non-atomic. Sequential tab synchronisation and stale-save rejection passed the checks below.
 - Login/register successful validation and mismatch handling; demo CAPTCHA is not production security.
 - Hero image content, licences, crop and network-failure checks.
 - Keyboard focus, screen reader labels and narrow mobile layouts for the full reporting journey.
@@ -28,15 +28,15 @@ Step 16 has begun with local checks only. No beta/public-launch readiness is cla
 
 ## Stale-tab handling — 9 November 2026
 
-Vendor saves now compare the stored snapshot before writing and reject stale updates with reload guidance. Storage events refresh idle vendor/profile and review views. This reduces stale overwrite risk but localStorage offers no atomic compare-and-swap: simultaneous writes remain a limitation. Use one editing tab until backend transactions are available. Browser two-tab verification is pending; syntax and existing tests are run separately.
+Vendor saves now compare the stored snapshot before writing and reject stale updates with reload guidance. Storage events refresh idle vendor/profile and review views. This reduces stale overwrite risk but localStorage offers no atomic compare-and-swap: simultaneous writes remain a limitation. Use one editing tab until backend transactions are available. Subsequent two-tab verification is recorded below.
 
 ## Two-tab browser verification — 9 November 2026
 
-Preview was stopped; restarted it and verified HTTP 200. Opened two vendor tabs. Changed the second menu item in tab A; tab B immediately showed sold out. Reloaded tab B; sold-out state persisted. Restored availability in tab B; tab A reflected the restoration. Original item availability was restored. This verifies storage-event synchronisation and reload persistence, not simultaneous-write atomicity or stale-write rejection. Request-failure/retry checks remain pending.
+Preview was stopped; restarted it and verified HTTP 200. Opened two vendor tabs. Changed the second menu item in tab A; tab B immediately showed sold out. Reloaded tab B; sold-out state persisted. Restored availability in tab B; tab A reflected the restoration. Original item availability was restored. This verifies storage-event synchronisation and reload persistence, not simultaneous-write atomicity or stale-write rejection. Subsequent request-failure/retry checks are recorded below.
 
 ## Failed request and retry — 9 November 2026
 
-Added opt-in THELARADAR_FAIL_ONCE=1 to the local preview server: only its first GET /api/demo/vendors returns 503; later requests work normally. Default startup is unchanged. Browser showed the load error and Retry button, no cards and no misleading empty-results state. Clicking Retry recovered five visible vendors (one previously withdrawn sample remained hidden), removed the error and preserved saved state. Reload also succeeded. The one-shot failure is consumed; preview now serves normally. Syntax checks passed. Timeout and blocked-storage checks remain separate outstanding cases.
+Added opt-in THELARADAR_FAIL_ONCE=1 to the local preview server: only its first GET /api/demo/vendors returns 503; later requests work normally. Default startup is unchanged. Browser showed the load error and Retry button, no cards and no misleading empty-results state. Clicking Retry recovered five visible vendors (one previously withdrawn sample remained hidden), removed the error and preserved saved state. Reload also succeeded. The one-shot failure is consumed; preview now serves normally. Syntax checks passed. Subsequent timeout and vendor-storage function checks are recorded below.
 
 To reproduce: stop the preview, set THELARADAR_FAIL_ONCE=1 for the server process, start it, then open /discover and click Retry. Do not set this flag for routine use.
 

@@ -1,6 +1,6 @@
 # ThelaRadar — 20-step roadmap
 
-Updated: 2026-11-07. This is the canonical progress tracker. Completion means evidence exists, not simply that a feature was discussed. Record changes to scope and reasons rather than silently rewriting the original vision.
+Updated: 2026-11-09. This is the canonical progress tracker. Completion means evidence exists, not simply that a feature was discussed. Record changes to scope and reasons rather than silently rewriting the original vision.
 
 | Step | Milestone | Status | Evidence / exit condition |
 | --- | --- | --- | --- |
@@ -20,7 +20,7 @@ Updated: 2026-11-07. This is the canonical progress tracker. Completion means ev
 | 14 | Build the consumer experience | In progress; fixture-backed | [Consumer implementation](product/consumer-implementation.md); real backend, directions and browser QA pending |
 | 15 | Build vendor and administration tools | Local vendor controls in progress | Stock controls and local correction/review lifecycle checked; real ownership and admin permissions deferred |
 | 16 | Verify the complete product | Local QA in progress | [Browser evidence and remaining checks](validation/local-qa.md); production verification deferred |
-| 17 | Launch a controlled beta | Not started | Usage, accuracy, failed-trip and support evidence from the pilot |
+| 17 | Launch a controlled beta | Not launched; local usability plan prepared | [Local session plan](validation/local-usability.md); real backend and field validation remain prerequisites |
 | 18 | Test revenue and repeatability | Not started | Actual payment evidence, service costs and adjacent-area experiment |
 | 19 | Add the broader original features | Not started | Separate validated releases for community, markets, moving stops/tracking and utilities |
 | 20 | Complete the product and prepare expansion | Not started | Sustainable operations, repeat users, credible economics; AI summaries only with adequate evidence |

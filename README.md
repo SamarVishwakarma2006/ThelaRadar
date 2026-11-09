@@ -14,7 +14,7 @@ Steps 1 and 2 are documented; Step 4 desk research is complete. Steps 5–9 have
 
 With Node.js 24 installed, run `npm start` from this folder, then open http://127.0.0.1:5190. No install or API key is needed. Stop with Ctrl+C. Run `npm run check` and `npm test` for the included checks.
 
-The prototype uses fictional vendors; directions, accounts and report submission are not connected. See [prototype behaviour and QA](docs/design/prototype.md).
+The prototype uses fictional vendors; directions and real accounts are not connected. Corrections and review decisions are saved only in this browser. See [prototype behaviour and QA](docs/design/prototype.md).
 
 ## Start here
 
@@ -46,4 +46,8 @@ docs/ROADMAP.md       Milestones, evidence and progress
 CONTRIBUTING.md       Contribution and manual Git instructions
 ```
 
-`web/` contains the buildless prototype; `scripts/preview.mjs` is its local preview server. Production architecture is deferred to Step 13. Name/domain/trademark availability and a software licence have not been established.
+`web/` contains the buildless prototype; `scripts/preview.mjs` is its local preview server. The proposed architecture is documented in Step 13; Supabase integration is deferred while local development continues. Name/domain/trademark availability and a software licence have not been established.
+
+## Try the local demo with people
+
+Follow the [short usability session plan](docs/validation/local-usability.md). See [QA evidence and limitations](docs/validation/local-qa.md) before treating the prototype as launch-ready.
