@@ -1,6 +1,6 @@
 # ThelaRadar — 20-step roadmap
 
-Updated: 2026-11-09. This is the canonical progress tracker. Completion means evidence exists, not simply that a feature was discussed. Record changes to scope and reasons rather than silently rewriting the original vision.
+Updated: 2026-11-10. This is the canonical progress tracker. Completion means evidence exists, not simply that a feature was discussed. Record changes to scope and reasons rather than silently rewriting the original vision.
 
 | Step | Milestone | Status | Evidence / exit condition |
 | --- | --- | --- | --- |
@@ -18,8 +18,8 @@ Updated: 2026-11-09. This is the canonical progress tracker. Completion means ev
 | 12 | Prototype and test the experience | Interactive prototype built; user testing pending | [Prototype and QA](design/prototype.md); consumer/vendor screens checked locally with fictional data |
 | 13 | Choose architecture and estimate costs | Baseline prepared; provisioning and recovery checks pending | [Architecture decision and budget](architecture/pilot-architecture.md); stack, access boundaries, backup targets and Step 14 handoff |
 | 14 | Build the consumer experience | In progress; fixture-backed | [Consumer implementation](product/consumer-implementation.md); real backend, directions and browser QA pending |
-| 15 | Build vendor and administration tools | Local vendor controls in progress | Stock controls and local correction/review lifecycle checked; real ownership and admin permissions deferred |
-| 16 | Verify the complete product | Local QA in progress | [Browser evidence and remaining checks](validation/local-qa.md); production verification deferred |
+| 15 | Build vendor and administration tools | Local vendor controls in progress | Profile, hours, menu, add/remove items, stock, attendance and local review checked; real vendor ownership and admin permissions deferred |
+| 16 | Verify the complete product | Local prototype QA in progress | [Browser evidence and remaining checks](validation/local-qa.md); 12 automated tests pass; user and production testing remain |
 | 17 | Launch a controlled beta | Not launched; local usability plan prepared | [Local session plan](validation/local-usability.md); real backend and field validation remain prerequisites |
 | 18 | Test revenue and repeatability | Not started | Actual payment evidence, service costs and adjacent-area experiment |
 | 19 | Add the broader original features | Not started | Separate validated releases for community, markets, moving stops/tracking and utilities |
@@ -40,3 +40,5 @@ The owner supplied a persona review describing an older documentation-only snaps
 ## Current next action — 10 November 2026
 
 The menu editor is built and locally checked. More mock-data features will not answer the main open question: whether local vendors will keep availability current. The next evidence-producing step is the owner's Vashi station walk described in [the first-visit checklist](validation/vashi-first-visit.md). Confirm the walking boundary, approach vendors only when convenient, record refusals and objections anonymously, and do not publish any real listing without separately recorded consent. No interview or pilot is claimed yet. After the visit, bring back anonymized findings and decide whether the seven-day rehearsal is practical. Backend, user testing, real vendor identity and publication safeguards remain before any public beta.
+
+See [launch readiness](validation/launch-readiness.md) for the prioritized owner/Codex handoffs and release gates.
