@@ -57,3 +57,10 @@ Added skip links to application/account shells, visible focus for summaries/text
 - Added regression coverage for corrupt/denied storage, escaped names, expired/future sightings and conflicting reports.
 - Community script now included in npm run check.
 - Multi-person sharing remains deferred until a shared backend is connected.
+
+## Local vendor profile editing — 9 November 2026
+- Vendor demo now edits stall name, public landmark and usual hours.
+- Validated, escaped fields persist in existing browser-local demo storage and restore on reload.
+- Editing does not change attendance/session state. Reset restores original sample profiles.
+- Storage failures retain the draft; another-tab changes cannot silently overwrite it.
+- Still fictional data without accounts or backend sharing.
