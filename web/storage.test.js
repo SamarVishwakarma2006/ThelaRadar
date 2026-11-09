@@ -23,7 +23,7 @@ test('stale vendor snapshot cannot overwrite a newer value',()=>{
 
 test('edited profile survives restore without changing attendance, and invalid edits are rejected',async()=>{
  const {createVendors}=await import('./data.js');
- const fields=app.slice(app.indexOf('function profileFields('),app.indexOf("dashboard.addEventListener('submit'"));
+ const fields=app.slice(app.indexOf('function menuFields('),app.indexOf("dashboard.addEventListener('submit'"));
  const restore=app.slice(app.indexOf('function restoreDemo('),app.indexOf('function readReports('));
  const base=createVendors(),edited=structuredClone(base);
  Object.assign(edited[0],{name:'QA sample stall',landmark:'QA public landmark',hours:'9 am – 11 am IST'});
@@ -37,5 +37,27 @@ test('edited profile survives restore without changing attendance, and invalid e
  for(const name of ['   ','x'.repeat(101),null]){
   context.input={name,landmark:'Public landmark',hours:'9 am'};
   assert.throws(()=>runInNewContext(fields+';profileFields(input)',context),/Complete all profile/);
+ }
+});
+
+test('menu prices and names validate and edited items survive reload',async()=>{
+ const {createVendors}=await import('./data.js');
+ const helpers=app.slice(app.indexOf('function menuFields('),app.indexOf("dashboard.addEventListener('submit'"));
+ const restore=app.slice(app.indexOf('function restoreDemo('),app.indexOf('function readReports('));
+ const base=createVendors(),edited=structuredClone(base);
+ Object.assign(edited[0].items[0],{name:'QA snack <special>',price:25.50,soldOut:true});
+ const context={base,localStorage:{getItem:()=>JSON.stringify(edited)},toast(){},persistDemo(){}};
+ const result=runInNewContext(helpers+restore+';restoreDemo(base)',context);
+ assert.equal(result[0].items[0].name,'QA snack <special>');
+ assert.equal(result[0].items[0].price,25.5);
+ assert.equal(result[0].items[0].soldOut,true);
+ assert.equal(result[0].state,base[0].state);
+ for(const price of [0,-1,NaN,Infinity,10001,1.001]){
+  context.items=[{name:'Snack',price}];
+  assert.throws(()=>runInNewContext(helpers+';menuFields(items)',context),/Prices must/);
+ }
+ for(const items of [[{name:' ',price:10}],[{name:'Snack',price:10},{name:' snack ',price:20}]]){
+  context.items=items;
+  assert.throws(()=>runInNewContext(helpers+';menuFields(items)',context));
  }
 });

@@ -64,3 +64,9 @@ Added skip links to application/account shells, visible focus for summaries/text
 - Editing does not change attendance/session state. Reset restores original sample profiles.
 - Storage failures retain the draft; another-tab changes cannot silently overwrite it.
 - Still fictional data without accounts or backend sharing.
+
+## Local menu editing — 9 November 2026
+- Existing sample item names and prices can be edited under For vendors.
+- Rejects blank/duplicate names and invalid prices; escapes names in consumer views.
+- Persists edits while preserving sold-out and attendance state. Existing reset restores fixtures.
+- Automated validation and restore checks added. Browser walkthrough pending.
