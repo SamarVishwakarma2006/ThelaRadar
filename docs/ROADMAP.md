@@ -32,3 +32,7 @@ Each milestone should have linked issues, deliverables, verification and a short
 Step 19 covers multiple releases. Each capability needs its own scope, evidence and acceptance checks. Step 20 does not require an AI feature when source reviews are inadequate.
 
 Commits and pushes are performed manually by the owner. Report local changes separately from committed/pushed changes.
+
+## Review-driven next action — 9 November 2026
+
+The owner supplied a persona review describing an older documentation-only snapshot. Treat its ratings as opinions, not user research. [Review response and seven-day field rehearsal](validation/review-to-fieldwork.md) converts its relevant maintenance-economics concern into a bounded experiment. Exact neighbourhood and owner-led recruitment are pending; no pilot has run. Existing four-week criteria are unchanged.
