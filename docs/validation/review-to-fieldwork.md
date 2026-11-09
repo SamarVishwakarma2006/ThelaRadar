@@ -10,7 +10,7 @@ The actionable concern remains supply maintenance: will vendors volunteer update
 
 ## Next action: seven-day feasibility rehearsal
 
-This is a smaller preliminary experiment, not a replacement for the four-week pilot or permission to lower its success thresholds. Locality must be selected by the owner first. No recruitment or results are claimed.
+This is a smaller preliminary experiment, not a replacement for the four-week pilot or permission to lower its success thresholds. The owner selected Vashi station area on 9 November 2026; confirm the roughly 500-metre walking boundary on the first visit. No recruitment or results are claimed.
 
 - Day 1: visit one reachable Maharashtra neighbourhood. Talk to five recurring-location food vendors and five prospective users. Use existing interview prompts; ask about their last actual missed visit/update habit, not whether they like an imaginary app.
 - Day 2: invite up to five consenting vendors and ten residents. Record refusals too. Agree usual selling sessions, publication consent, withdrawal route, message channel and expiry rule before collecting outcomes.

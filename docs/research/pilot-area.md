@@ -1,7 +1,7 @@
 # ThelaRadar — Pilot region and audience
 
-Updated: 2026-11-07
-Status: Step 5 in progress. Maharashtra is confirmed; the first city, neighbourhood and recruitment access remain undecided.
+Updated: 2026-11-09
+Status: Vashi station area, Navi Mumbai, approved by the owner for the first field rehearsal. Exact walking boundary and recruitment access require a first visit.
 
 ## Founder decision
 
@@ -9,9 +9,17 @@ Launch and validate ThelaRadar only in Maharashtra for now. Expansion beyond Mah
 
 This sets the geographic boundary; it is not a commitment to launch statewide at once. Start with one compact, reachable neighbourhood, then consider adjacent areas based on evidence. The original India-wide vision remains preserved.
 
+## Approved first area — 9 November 2026
+
+Vashi station, Navi Mumbai, within roughly 500 metres of walking distance. Select and record one station exit and a contiguous walking route on the first visit; do not assume a circular radius crosses accessible paths. The owner accepted this scope after listing reachable areas. This is a practical starting choice, not evidence of superior demand or confirmed vendor coverage.
+
+Keep Kopar Khairane, Kalyan, Chembur and Dombivli as later candidates. Do not broaden this rehearsal without recording why. The website's fictional Nerul fixtures remain demo data, not Vashi listings.
+
+Use [the first-visit checklist](../validation/vashi-first-visit.md). No vendor has been contacted or enrolled by this decision.
+
 ## Candidate locations
 
-The founder suggested Mumbai (including Bandra), Navi Mumbai, Kalyan, Karjat, Mira Road and Panvel. None has been selected as the pilot. Earlier recommendations to investigate Navi Mumbai, Kalyan and Panvel were provisional, not field-validated rankings.
+The founder suggested Mumbai (including Bandra), Navi Mumbai, Kalyan, Karjat, Mira Road and Panvel. Vashi station area has now been selected for the first rehearsal. Earlier recommendations to investigate Navi Mumbai, Kalyan and Panvel were provisional, not field-validated rankings.
 
 Select the first locality using:
 

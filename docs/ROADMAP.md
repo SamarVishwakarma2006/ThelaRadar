@@ -8,7 +8,7 @@ Updated: 2026-11-09. This is the canonical progress tracker. Completion means ev
 | 2 | Define the improved product | Complete | [Product direction](vision/product-direction.md), proposed scope and open assumptions |
 | 3 | Establish the GitHub workspace | In progress | Repository files prepared; finish [GitHub setup checklist](operations/github-workflow.md) |
 | 4 | Research competitors and alternatives | Complete (desk research) | [Competitor research](research/competitors.md); local coverage and switching hypotheses require field validation |
-| 5 | Choose pilot area and audience | In progress | [Maharashtra confirmed](research/pilot-area.md); exact neighbourhood and recruitment access pending |
+| 5 | Choose pilot area and audience | In progress | [Vashi station area approved](research/pilot-area.md); exact walking boundary and recruitment access pending |
 | 6 | Interview customers and vendors | Prepared; fieldwork pending | [Interview guide](research/interview-guide.md) and [note template](research/interview-notes-template.md); choose locality and conduct interviews |
 | 7 | Define success and stop criteria | Draft prepared; freeze pending | [Pilot plan](validation/pilot-plan.md); choose locality, review interviews and freeze criteria before outcomes |
 | 8 | Run a manual service experiment | Workflow prepared; pilot not run | [Manual workflow](validation/manual-pilot.md) and [record templates](validation/pilot-record-templates.md); Steps 5–7 fieldwork/freeze pending |
@@ -35,4 +35,4 @@ Commits and pushes are performed manually by the owner. Report local changes sep
 
 ## Review-driven next action — 9 November 2026
 
-The owner supplied a persona review describing an older documentation-only snapshot. Treat its ratings as opinions, not user research. [Review response and seven-day field rehearsal](validation/review-to-fieldwork.md) converts its relevant maintenance-economics concern into a bounded experiment. Exact neighbourhood and owner-led recruitment are pending; no pilot has run. Existing four-week criteria are unchanged.
+The owner supplied a persona review describing an older documentation-only snapshot. Treat its ratings as opinions, not user research. [Review response and seven-day field rehearsal](validation/review-to-fieldwork.md) converts its relevant maintenance-economics concern into a bounded experiment. Vashi station area is approved; walking boundary and owner-led recruitment are pending; no pilot has run. Existing four-week criteria are unchanged.
