@@ -7,10 +7,12 @@ const files={'/':'index.html','/index.html':'index.html','/styles.css':'styles.c
 Object.assign(files,{'/discover':'index.html','/saved':'index.html','/vendors':'index.html','/review':'index.html','/login':'auth.html','/register':'auth.html','/auth.css':'auth.css','/auth.js':'auth.js'});
 const types={html:'text/html; charset=utf-8',css:'text/css; charset=utf-8',js:'text/javascript; charset=utf-8'};
 // Opt-in one-shot HTTP failure for local retry QA; never active by default.
+let delayNextDemo=process.env.THELARADAR_DELAY_ONCE==='1';
 let failNextDemo=process.env.THELARADAR_FAIL_ONCE==='1';
 const server=createServer(async(req,res)=>{
   const path=new URL(req.url,'http://127.0.0.1').pathname;
   if(!['GET','HEAD'].includes(req.method)){res.writeHead(405,{'Allow':'GET, HEAD'}).end();return;}
+  if(path==='/api/demo/vendors' && req.method==='GET' && delayNextDemo){delayNextDemo=false;await new Promise(resolve=>setTimeout(resolve,12000));}
   if(path==='/api/demo/vendors' && req.method==='GET' && failNextDemo){failNextDemo=false;res.writeHead(503,{'Content-Type':'application/json','Cache-Control':'no-store'}).end(JSON.stringify({error:'Intentional local QA failure'}));return;}
   if(path==='/api/demo/vendors'){res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'}).end(req.method==='HEAD'?undefined:JSON.stringify({demo:true,vendors:createVendors()}));return;}
   const file=files[path];

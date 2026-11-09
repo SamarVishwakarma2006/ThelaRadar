@@ -39,3 +39,9 @@ Preview was stopped; restarted it and verified HTTP 200. Opened two vendor tabs.
 Added opt-in THELARADAR_FAIL_ONCE=1 to the local preview server: only its first GET /api/demo/vendors returns 503; later requests work normally. Default startup is unchanged. Browser showed the load error and Retry button, no cards and no misleading empty-results state. Clicking Retry recovered five visible vendors (one previously withdrawn sample remained hidden), removed the error and preserved saved state. Reload also succeeded. The one-shot failure is consumed; preview now serves normally. Syntax checks passed. Timeout and blocked-storage checks remain separate outstanding cases.
 
 To reproduce: stop the preview, set THELARADAR_FAIL_ONCE=1 for the server process, start it, then open /discover and click Retry. Do not set this flag for routine use.
+
+## Slow request and storage faults — 9 November 2026
+
+Added opt-in THELARADAR_DELAY_ONCE=1 (first demo GET waits 12 seconds). Browser showed loading, then the error state, and Retry recovered five visible listings while retaining the withdrawn sample. Initial visibility wait timed out before the error was observed; no precise wall-clock timeout guarantee is claimed for background tabs. One-shot delay is consumed and subsequent requests serve normally.
+
+Added three Node fault-injection tests against the shipped persistDemo function: denied storage reads, failed writes and stale snapshots return false without advancing the snapshot or overwriting newer data. All five tests and syntax checks pass. These are storage-function tests, not browser-wide quota tests or simultaneous-write guarantees.

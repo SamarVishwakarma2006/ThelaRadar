@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node scripts/preview.mjs",
-    "test": "node --test web/data.test.js",
+    "test": "node --test web/data.test.js web/storage.test.js",
     "check": "node --check web/app.js && node --check web/data.js && node --check scripts/preview.mjs && node --check web/auth.js"
   }
 }
