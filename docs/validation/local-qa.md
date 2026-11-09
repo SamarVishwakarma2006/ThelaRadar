@@ -33,3 +33,9 @@ Vendor saves now compare the stored snapshot before writing and reject stale upd
 ## Two-tab browser verification — 9 November 2026
 
 Preview was stopped; restarted it and verified HTTP 200. Opened two vendor tabs. Changed the second menu item in tab A; tab B immediately showed sold out. Reloaded tab B; sold-out state persisted. Restored availability in tab B; tab A reflected the restoration. Original item availability was restored. This verifies storage-event synchronisation and reload persistence, not simultaneous-write atomicity or stale-write rejection. Request-failure/retry checks remain pending.
+
+## Failed request and retry — 9 November 2026
+
+Added opt-in THELARADAR_FAIL_ONCE=1 to the local preview server: only its first GET /api/demo/vendors returns 503; later requests work normally. Default startup is unchanged. Browser showed the load error and Retry button, no cards and no misleading empty-results state. Clicking Retry recovered five visible vendors (one previously withdrawn sample remained hidden), removed the error and preserved saved state. Reload also succeeded. The one-shot failure is consumed; preview now serves normally. Syntax checks passed. Timeout and blocked-storage checks remain separate outstanding cases.
+
+To reproduce: stop the preview, set THELARADAR_FAIL_ONCE=1 for the server process, start it, then open /discover and click Retry. Do not set this flag for routine use.
