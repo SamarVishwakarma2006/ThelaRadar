@@ -1,0 +1,5 @@
+# Vashi public-source leads — 9 November 2026
+
+Web search, not a live Google Maps API import or field verification. LBB mentions Pop’s Jumbo Vada Pav around Vashi station: https://lbb.in/mumbai/eating-around-vashi-station/ . FSSAI's historical hub list names the station forecourt, Sector 30A: https://eatrightindia.gov.in/streetfoodhub/media/pdf/hub%20list.pdf . Neither establishes current attendance, menu prices or current certification. Review exact selling landmarks and consent before publishing live vendor profiles.
+
+Owner requests public web research as the initial information source. Consumer submissions may supplement it. /community implements browser-local suggestions and timestamped seen/not-seen reports. Reports expire from recent status after two hours; conflicts remain explicit. No unique-person vote count is claimed. Public multi-user release requires shared backend, moderation before publication, ownership/removal controls, rate limits, abuse reporting and server timestamps. Browser cooldown and local timestamps are demo behaviour only. No automatic promotion to vendor-confirmed status.
