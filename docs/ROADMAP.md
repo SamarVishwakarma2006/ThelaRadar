@@ -36,3 +36,7 @@ Commits and pushes are performed manually by the owner. Report local changes sep
 ## Review-driven next action — 9 November 2026
 
 The owner supplied a persona review describing an older documentation-only snapshot. Treat its ratings as opinions, not user research. [Review response and seven-day field rehearsal](validation/review-to-fieldwork.md) converts its relevant maintenance-economics concern into a bounded experiment. Vashi station area is approved; walking boundary and owner-led recruitment are pending; no pilot has run. Existing four-week criteria are unchanged.
+
+## Current next action — 10 November 2026
+
+The menu editor is built and locally checked. More mock-data features will not answer the main open question: whether local vendors will keep availability current. The next evidence-producing step is the owner's Vashi station walk described in [the first-visit checklist](validation/vashi-first-visit.md). Confirm the walking boundary, approach vendors only when convenient, record refusals and objections anonymously, and do not publish any real listing without separately recorded consent. No interview or pilot is claimed yet. After the visit, bring back anonymized findings and decide whether the seven-day rehearsal is practical. Backend, user testing, real vendor identity and publication safeguards remain before any public beta.
