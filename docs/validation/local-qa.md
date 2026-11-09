@@ -70,3 +70,12 @@ Added skip links to application/account shells, visible focus for summaries/text
 - Rejects blank/duplicate names and invalid prices; escapes names in consumer views.
 - Persists edits while preserving sold-out and attendance state. Existing reset restores fixtures.
 - Automated validation and restore checks added. Browser walkthrough pending.
+
+## Vendor editor browser walkthrough — 9 November 2026
+- Passed: whitespace-only profile names rejected with inline feedback.
+- Passed: profile name, public landmark and hours save; menu duplicate names rejected.
+- Passed: edited item name and decimal price survive a page reload.
+- Passed: consumer profile displays edited name, landmark, hours and price; angle brackets remain literal text.
+- Passed: attendance remains unconfirmed after edits.
+- Restored only the edited Poha sample fields to their original values; other browser data retained.
+- Scope: desktop browser happy path and selected validation errors. Automated checks cover invalid prices and storage faults; mobile editor layout and unsaved-draft navigation are not yet checked.
