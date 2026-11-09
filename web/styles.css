@@ -36,3 +36,6 @@ body{font-family:'Bricolage Grotesque',Arial,sans-serif;background:#FCFFFF}.bran
 @media(max-width:480px){.menu-list li{flex-wrap:wrap;gap:12px}.menu-list button{white-space:normal;max-width:100%;min-height:44px}.dialog-actions{flex-wrap:wrap}.dialog-actions .button{white-space:normal}.categories button,.profile-button{min-height:44px}}
 
 #suggest-form input{display:block;width:100%;max-width:600px;padding:12px;border:1px solid var(--ink);margin-bottom:12px}#suggestions .review-entry{overflow-wrap:anywhere}
+
+/* Vendor editors fit narrow screens and keep touch-friendly fields. */
+#vendor-edit-form input,#menu-edit-form input{display:block;box-sizing:border-box;width:100%;min-width:0;min-height:44px;padding:12px;margin:6px 0 16px;border:1px solid var(--ink);background:#FCFFFF;font:inherit}#menu-edit-form fieldset{min-width:0;margin:0 0 16px;padding:12px;border:1px solid var(--line)}#vendor-edit-form .button,#menu-edit-form .button{max-width:100%;white-space:normal}

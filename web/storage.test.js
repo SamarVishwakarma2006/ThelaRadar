@@ -61,3 +61,16 @@ test('menu prices and names validate and edited items survive reload',async()=>{
   assert.throws(()=>runInNewContext(helpers+';menuFields(items)',context));
  }
 });
+
+test('drafts are isolated by vendor and form, and reverting clears only that draft',()=>{
+ const draftSource=app.slice(app.indexOf('const editorDrafts=new Map();'),app.indexOf("dashboard.addEventListener('input'"));
+ const context={dashboard:{dataset:{vendor:'vada'}},form:{id:'vendor-edit-form',querySelectorAll:()=>[{name:'name',value:'Draft',defaultValue:'Original'}]}};
+ runInNewContext(draftSource+';rememberDraft(form)',context);
+ context.dashboard.dataset.vendor='poha';
+ runInNewContext('rememberDraft(form)',context);
+ assert.equal(runInNewContext('editorDrafts.size',context),2);
+ context.form.querySelectorAll=()=>[{name:'name',value:'Original',defaultValue:'Original'}];
+ runInNewContext('rememberDraft(form)',context);
+ assert.equal(runInNewContext('editorDrafts.has("vada:vendor-edit-form")',context),true);
+ assert.equal(runInNewContext('editorDrafts.has("poha:vendor-edit-form")',context),false);
+});

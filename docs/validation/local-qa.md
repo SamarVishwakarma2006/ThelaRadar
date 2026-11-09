@@ -79,3 +79,11 @@ Added skip links to application/account shells, visible focus for summaries/text
 - Passed: attendance remains unconfirmed after edits.
 - Restored only the edited Poha sample fields to their original values; other browser data retained.
 - Scope: desktop browser happy path and selected validation errors. Automated checks cover invalid prices and storage faults; mobile editor layout and unsaved-draft navigation are not yet checked.
+
+## Mobile editors and drafts — 9 November 2026
+- Profile and menu fields fit a 320px browser viewport without horizontal overflow; menu inputs measured 44px high.
+- Browser verified an unsaved profile survives switching to another vendor and back. Test value reverted without saving.
+- In-memory drafts are isolated by vendor/form, restored after dashboard redraws, and cleared only for the saved form. Reset is blocked while drafts exist.
+- beforeunload requests the browser's standard leave warning; browser support varies (especially mobile termination). Drafts are not durable across closing/reloading.
+- Cross-tab updates remain blocked while drafts exist so stale saves cannot overwrite newer storage.
+- Automated draft isolation/reversion coverage added. Navigation stayed on the vendor page during QA; native warning text was not observable through automation.
