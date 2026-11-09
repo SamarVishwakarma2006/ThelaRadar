@@ -29,3 +29,7 @@ Step 16 has begun with local checks only. No beta/public-launch readiness is cla
 ## Stale-tab handling — 9 November 2026
 
 Vendor saves now compare the stored snapshot before writing and reject stale updates with reload guidance. Storage events refresh idle vendor/profile and review views. This reduces stale overwrite risk but localStorage offers no atomic compare-and-swap: simultaneous writes remain a limitation. Use one editing tab until backend transactions are available. Browser two-tab verification is pending; syntax and existing tests are run separately.
+
+## Two-tab browser verification — 9 November 2026
+
+Preview was stopped; restarted it and verified HTTP 200. Opened two vendor tabs. Changed the second menu item in tab A; tab B immediately showed sold out. Reloaded tab B; sold-out state persisted. Restored availability in tab B; tab A reflected the restoration. Original item availability was restored. This verifies storage-event synchronisation and reload persistence, not simultaneous-write atomicity or stale-write rejection. Request-failure/retry checks remain pending.
