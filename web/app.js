@@ -1,7 +1,7 @@
 import {createVendors,availability,matches} from './data.js';
 
 const $ = selector => document.querySelector(selector);
-let vendors = [], loadState='loading';
+let vendors = [], loadState='loading', demoSnapshot=null;
 let category = 'all', savedOnly = location.pathname==='/saved', toastTimer;
 let saved = [];
 try { const value = JSON.parse(localStorage.getItem('thelaradar-favourites') || '[]'); if (Array.isArray(value)) saved = value.filter(id => typeof id === 'string'); } catch { /* Browsing remains usable without storage. */ }
@@ -158,12 +158,15 @@ $('#retry-vendors').addEventListener('click',loadVendors);
 loadVendors();
 
 function persistDemo(next){
- try{localStorage.setItem('thelaradar-demo-v1',JSON.stringify(next));return true;}
+ try{
+  if(localStorage.getItem('thelaradar-demo-v1')!==demoSnapshot){toast('Another tab changed the demo. Reload before saving; your update was not saved.');return false;}
+  const encoded=JSON.stringify(next);localStorage.setItem('thelaradar-demo-v1',encoded);demoSnapshot=encoded;return true;
+ }
  catch{toast('Could not save changes: browser storage is blocked or full. Nothing changed.');return false;}
 }
 function restoreDemo(base){
  try{
-  const raw=localStorage.getItem('thelaradar-demo-v1');
+  const raw=localStorage.getItem('thelaradar-demo-v1');demoSnapshot=raw;
   if(raw===null){persistDemo(base);return base;}
   const rows=JSON.parse(raw);
   if(!Array.isArray(rows)||rows.length!==base.length)throw new Error();
@@ -207,3 +210,13 @@ if(page!=='/'&&page!=='/index.html'){
 if(page==='/vendors'||page==='/review')document.querySelector('main').append($(page==='/vendors'?'#dashboard-dialog':'#review-dialog'));
 const pageTitles={'/discover':'Discover','/saved':'Saved vendors','/vendors':'Vendor demo','/review':'Local review'};
 if(pageTitles[page])document.title='ThelaRadar — '+pageTitles[page];
+
+// Synchronise idle views when another tab updates browser-local demo data.
+window.addEventListener('storage',event=>{
+ if(event.key==='thelaradar-demo-v1'&&loadState==='ready'){
+  vendors=restoreDemo(createVendors());render();
+  if(dashboard.open)openDashboard(dashboard.dataset.vendor);
+  if(profile.open)openProfile(profile.dataset.vendor);
+ }
+ if(event.key==='thelaradar-reports-v1'&&$('#review-dialog').open)openReview();
+});

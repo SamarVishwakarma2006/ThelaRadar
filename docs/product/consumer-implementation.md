@@ -42,3 +42,5 @@ Syntax checks, existing tests and route HTTP checks pass. Visual/mobile and full
 ## Separate-page browser checks — 8 November 2026
 
 Desktop and 390px mobile account layouts inspected. Empty registration submission triggers required-email validation; Show switches password input visibility. Register-to-login and account-free discovery navigation work. Vendor and review routes load. Fixed standalone tool panels appearing after the footer and restored the mobile account link; verified panel inside main, login link visible and no horizontal overflow at 390px. Added distinct document titles and auth.js to syntax checks. CAPTCHA completion, successful form submission and report-to-review lifecycle remain unverified. Existing tests and syntax checks pass.
+
+Report lifecycle verified 8 November 2026: save, duplicate rejection, review persistence, reopen and dismiss persistence passed in browser; no console warnings/errors captured. Full evidence and outstanding checks: ../validation/local-qa.md.

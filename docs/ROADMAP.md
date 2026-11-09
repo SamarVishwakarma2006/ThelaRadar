@@ -18,8 +18,8 @@ Updated: 2026-11-07. This is the canonical progress tracker. Completion means ev
 | 12 | Prototype and test the experience | Interactive prototype built; user testing pending | [Prototype and QA](design/prototype.md); consumer/vendor screens checked locally with fictional data |
 | 13 | Choose architecture and estimate costs | Baseline prepared; provisioning and recovery checks pending | [Architecture decision and budget](architecture/pilot-architecture.md); stack, access boundaries, backup targets and Step 14 handoff |
 | 14 | Build the consumer experience | In progress; fixture-backed | [Consumer implementation](product/consumer-implementation.md); real backend, directions and browser QA pending |
-| 15 | Build vendor and administration tools | Local vendor controls in progress | Individual stock controls and browser persistence checked; ownership, admin and moderation pending |
-| 16 | Verify the complete product | Not started | Critical-flow, permissions, expiry, connectivity and recovery checks |
+| 15 | Build vendor and administration tools | Local vendor controls in progress | Stock controls and local correction/review lifecycle checked; real ownership and admin permissions deferred |
+| 16 | Verify the complete product | Local QA in progress | [Browser evidence and remaining checks](validation/local-qa.md); production verification deferred |
 | 17 | Launch a controlled beta | Not started | Usage, accuracy, failed-trip and support evidence from the pilot |
 | 18 | Test revenue and repeatability | Not started | Actual payment evidence, service costs and adjacent-area experiment |
 | 19 | Add the broader original features | Not started | Separate validated releases for community, markets, moving stops/tracking and utilities |

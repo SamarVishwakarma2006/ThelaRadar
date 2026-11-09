@@ -1,0 +1,31 @@
+# Local QA evidence — 8 November 2026
+
+Scope: browser-local demo, not production acceptance or customer validation.
+
+## Report lifecycle: passed
+
+- Opened the poha sample profile from its direct URL.
+- Saved a Menu or price correction with explicitly labelled QA sample text.
+- Repeated the exact pending report; duplicate was rejected without creating another entry.
+- Opened /review; the report appeared under the correct vendor and category.
+- Marked reviewed and reloaded; reviewed state persisted.
+- Reopened, dismissed and reloaded; dismissed state persisted.
+- Browser warning/error log returned no entries during this workflow.
+
+One labelled QA report remains dismissed in the test browser. No real vendor information was changed, and no report was transmitted outside browser storage.
+
+## Remaining checks
+
+- Storage blocked/full/corrupted: report creation and decisions must fail honestly without losing existing records.
+- Offline and request timeout/retry behaviour; expired evidence on resumed tabs.
+- Multi-tab changes: current local snapshots may overwrite each other; resolve before claiming reliable concurrent editing.
+- Login/register successful validation and mismatch handling; demo CAPTCHA is not production security.
+- Hero image content, licences, crop and network-failure checks.
+- Keyboard focus, screen reader labels and narrow mobile layouts for the full reporting journey.
+- Supabase authentication, permission isolation, migrations, server CAPTCHA, backup/restore and real-world pilot remain deferred.
+
+Step 16 has begun with local checks only. No beta/public-launch readiness is claimed.
+
+## Stale-tab handling — 9 November 2026
+
+Vendor saves now compare the stored snapshot before writing and reject stale updates with reload guidance. Storage events refresh idle vendor/profile and review views. This reduces stale overwrite risk but localStorage offers no atomic compare-and-swap: simultaneous writes remain a limitation. Use one editing tab until backend transactions are available. Browser two-tab verification is pending; syntax and existing tests are run separately.
