@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ThelaRadar local vendor discovery — an interactive prototype with fictional sample vendors.">
+  <title>ThelaRadar — Good things, around the corner.</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body><a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="ThelaRadar home"><span class="brand-icon" aria-hidden="true">⌖</span>Thela<span>Radar</span><i></i></a>
+    <nav aria-label="Main navigation"><a href="/community">Suggest a place</a><a href="/discover" class="nav-discover">Discover</a><button id="saved-nav">Saved <span id="saved-count">0</span></button><button id="vendor-nav">For vendors <span aria-hidden="true">↗</span></button></nav>
+    <a class="region" href="/login">Log in / Register ↗</a>
+  </header>
+  <main id="main-content" tabindex="-1">
+<section id="home" class="hero wrap"><div class="hero-copy"><div class="eyebrow">MAHARASHTRA'S LITTLE LOCAL FINDS</div><h1>Find local thelas.<br>Know when they’re serving.</h1><p>Find the stalls that make your neighbourhood.<br>See what's cooking, check the timings, take a little detour.</p><a class="button hero-cta" href="/discover">Explore sample stalls</a><form id="hero-search" class="search-box discovery-search"><label class="sr-only" for="search">Search a dish or vendor</label><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="What are you craving?" maxlength="80"><button class="button" type="submit">Find a thela <span aria-hidden="true">↗</span></button></form><div class="hero-foot">Local flavours. Familiar faces. New favourites.</div></div><div class="hero-gallery" aria-label="Illustrated neighbourhood favourites"><a class="hero-tile tile-0" href="/discover"><img src="https://images.pexels.com/photos/15017417/pexels-photo-15017417.jpeg?auto=compress&cs=tinysrgb&w=650" alt="Vada pav with green chillies" width="650" height="850" loading="eager" fetchpriority="high"></a><a class="hero-tile tile-1" href="/discover"><img src="https://images.pexels.com/photos/5946624/pexels-photo-5946624.jpeg?auto=compress&cs=tinysrgb&w=650" alt="Freshly prepared tea" width="650" height="850" loading="eager" ></a><a class="hero-tile tile-2" href="/discover"><img src="https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=650" alt="Indian food served with colourful accompaniments" width="650" height="850" loading="eager" ></a><a class="hero-tile tile-3" href="/discover"><img src="https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg?auto=compress&cs=tinysrgb&w=650" alt="A freshly prepared Indian meal" width="650" height="850" loading="eager" ></a></div><p class="gallery-note">Food inspiration · stock photos, not live listings</p></section>
+    <section id="discover" class="discovery wrap">
+      <div class="section-top"><div><div class="eyebrow">Find a stall nearby</div><h2>What’s serving around Nerul?</h2></div><label class="area-picker"><span aria-hidden="true">⌖</span><span class="sr-only">Sample area</span><select id="area" aria-label="Sample area"><option value="nerul">Nerul · sample area</option><option value="panvel">Panvel · not covered</option><option value="kalyan">Kalyan · not covered</option></select></label></div>
+      <p class="sample-note">Demo listings for Nerul. Names, menus, prices and timings are fictional; this is not live availability.</p>
+
+      <div class="filters"><div id="categories" class="categories" aria-label="Food category"><button data-category="all" aria-pressed="true">All the good stuff</button><button data-category="snacks" aria-pressed="false">Snacks</button><button data-category="chai" aria-pressed="false">Chai & sips</button><button data-category="breakfast" aria-pressed="false">Breakfast</button><button data-category="meals" aria-pressed="false">Meals</button></div><label class="available-filter"><input id="available" type="checkbox"> Confirmed in demo</label></div>
+      <div class="result-line"><span id="result-count" role="status"></span><button id="clear-filters" class="text-button">Reset filters ↻</button></div>
+      <p id="connection-note" role="status" hidden>You’re offline. These are local sample listings, not current vendor availability. Photos may be unavailable.</p><noscript>Enable JavaScript to explore the interactive sample vendors.</noscript><div id="load-state" role="status"><p id="load-message">Loading sample vendors…</p><button id="retry-vendors" class="button" hidden>Retry loading</button></div><div id="vendor-grid" class="vendor-grid"></div>
+      <div id="empty-state" class="empty-state" hidden><span>⌕</span><h3>No stalls in this little corner yet.</h3><p id="empty-copy"></p><button class="button" id="empty-reset">Back to sample listings</button></div>
+    </section>
+    <section class="vendor-banner wrap"><div class="banner-drawing" aria-hidden="true">✳</div><div><div class="eyebrow">FOR THE PEOPLE BEHIND THE THELA</div><h2>Your regulars.<br>And your next ones.</h2><p>A simple way to share what you're serving and when you're around.</p></div><button id="vendor-cta" class="button light">Try the vendor preview ↗</button></section>
+    <section class="how-it-works wrap"><div><div class="eyebrow">LESS GUESSING. MORE DISCOVERING.</div><h2>A little knowledge<br>goes a long way.</h2></div><article><span>01</span><h3>Find your craving.</h3><p>Browse a dish, a neighbourhood or a familiar favourite.</p></article><article><span>02</span><h3>Check the context.</h3><p>See usual hours separately from a recent confirmation.</p></article><article><span>03</span><h3>Take the little detour.</h3><p>Find the selling landmark. Bring your appetite.</p></article></section>
+  </main>
+  <footer class="wrap"><a class="brand" href="/">Thela<span>Radar</span><i></i></a><p>Good things are closer than you think.</p><span>Maharashtra first. Made for the neighbourhood.</span><button id="review-demo" class="text-button">Local review demo</button></footer>
+  <dialog id="profile-dialog" aria-label="Sample vendor profile"></dialog>
+  <dialog id="review-dialog" aria-label="Local correction review"></dialog><dialog id="dashboard-dialog" aria-label="Vendor dashboard preview"></dialog>
+  <div id="toast" role="status" class="toast" hidden></div>
+  <script type="module" src="app.js"></script>
+</body></html>
